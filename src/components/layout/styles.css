@@ -1,0 +1,60 @@
+.box {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(9.2px);
+  -webkit-backdrop-filter: blur(9.2px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.header {
+  background-color: #662549;
+}
+
+#map iframe,
+#map object,
+#map embed {
+  max-width: 100%;
+  height: auto;
+}
+
+.center {
+  background: rgb(255, 183, 52);
+  background: #E8F5E9;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sppiner {
+  width: 200px;
+  height: 200px;
+  border: 5px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: #F05E29;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mySwiper {
+  width: 100%;
+  max-width: 500px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.mySwiper .swiper-slide {
+  background-position: left;
+  background-size: cover;
+  height: 400px;
+}

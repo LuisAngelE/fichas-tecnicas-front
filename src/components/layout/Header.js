@@ -1,0 +1,155 @@
+import * as React from "react";
+import {
+  Box,
+  SwipeableDrawer,
+  AppBar,
+  Toolbar,
+  List,
+  CssBaseline,
+  Divider,
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Avatar,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
+import PersonIcon from "@mui/icons-material/Person";
+import { Link } from "react-router-dom";
+import Logo from "../layout/img/FOTON.png";
+import CategoryIcon from "@mui/icons-material/Category";
+import { blue } from "@mui/material/colors";
+import LayersIcon from "@mui/icons-material/Layers";
+import ViewModuleIcon from "@mui/icons-material/ViewModule";
+import DevicesOtherIcon from "@mui/icons-material/DevicesOther";
+
+import { deepOrange } from "@mui/material/colors";
+
+export default function Header({ children }) {
+  const [open, setOpen] = React.useState(false);
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setOpen(open);
+  };
+
+  const user_type = localStorage.getItem("user_type");
+
+  const Admin = [
+    { name: "Inicio", value: "/Inicio", icon: <HomeIcon /> },
+    { name: "Categorías", value: "/Categorías", icon: <CategoryIcon /> },
+    { name: "Subcategorías", value: "/Subcategorías", icon: <LayersIcon /> },
+    { name: "Segmentos", value: "/Segmentos", icon: <ViewModuleIcon /> },
+    { name: "Modelos", value: "/Modelos", icon: <DevicesOtherIcon /> },
+    { name: "Mi perfil", value: "/Perfil", icon: <PersonIcon /> },
+  ];
+
+  const Viewer = [
+    { name: "Inicio", value: "/Inicio", icon: <HomeIcon /> },
+    { name: "Mi perfil", value: "/Perfil", icon: <PersonIcon /> },
+  ];
+
+  const menuItems = user_type === "1" ? Admin : user_type === "2" ? Viewer : [];
+
+  const list = () => (
+    <Box
+      sx={{ width: 250 }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          py: 3,
+        }}
+      >
+        <Avatar sx={{ bgcolor: blue[300], width: 56, height: 56 }}>N</Avatar>
+        <Typography variant="subtitle1" sx={{ mt: 1 }}>
+          Nombre Usuario
+        </Typography>
+      </Box>
+      <Divider />
+
+      <List>
+        {menuItems.map((item, index) => (
+          <ListItem key={index} disablePadding>
+            <ListItemButton component={Link} to={item.value}>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+    </Box>
+  );
+
+  return (
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <AppBar position="fixed" sx={{ background: "#C0D4FC" }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            position: "relative",
+          }}
+        >
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={toggleDrawer(true)}
+            edge="start"
+            sx={{
+              color: "black",
+              transition: "0.2s",
+              zIndex: 2,
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+
+          <Box
+            sx={{
+              position: "absolute",
+              left: "50%",
+              transform: "translateX(-50%)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img src={Logo} alt="logo" style={{ width: 80, height: 80 }} />
+          </Box>
+        </Toolbar>
+      </AppBar>
+
+      <SwipeableDrawer
+        anchor="left"
+        open={open}
+        onClose={toggleDrawer(false)}
+        onOpen={toggleDrawer(true)}
+      >
+        {list()}
+      </SwipeableDrawer>
+
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Toolbar />
+        {children}
+      </Box>
+    </Box>
+  );
+}
