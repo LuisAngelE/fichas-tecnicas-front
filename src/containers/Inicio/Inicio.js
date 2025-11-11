@@ -1,12 +1,12 @@
-import React from "react";
-import Layout from "../../components/layout/Layout";
+import React from 'react'
+import Layout from '../../components/layout/Layout'
 
 const Inicio = () => {
   return (
     <Layout>
-      <h1>Inicio</h1>
+      Cards Fichas tecnicas
     </Layout>
-  );
-};
+  )
+}
 
-export default Inicio;
+export default Inicio

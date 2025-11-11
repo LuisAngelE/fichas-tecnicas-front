@@ -9,10 +9,10 @@ import Paper from "@mui/material/Paper";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useContext, useEffect, useState } from "react";
-import SubCategoriasContext from "../../context/Subcategorías/SubCategoriasContext";
+import { useContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import EditSubcategorías from "../../containers/Subcategorías/EditSubcategorías";
+import FichasTecnicasContext from "../../context/FichasTecnicas/FichasTecnicasContext";
+import EditFichasTecnicas from "../../containers/FichasTecnicas/EditFichasTecnicas";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -62,10 +62,11 @@ const TableContainerResponsive = styled(TableContainer)(({ theme }) => ({
   },
 }));
 
-export default function TableSubcategorías({ subcategorias }) {
-  const { DeleteSubCategorias } = useContext(SubCategoriasContext);
+export default function TableCategorias({ fichastecnicas }) {
+  const { DeleteFichasTecnicas } = useContext(FichasTecnicasContext);
   const [modalUpdate, OpenModalUpdate] = useState(false);
   const [id_service, saveIdService] = useState(null);
+
   const handleClickOpen = (id) => {
     OpenModalUpdate(true);
     saveIdService(id);
@@ -74,46 +75,83 @@ export default function TableSubcategorías({ subcategorias }) {
     OpenModalUpdate(false);
     saveIdService(null);
   };
+
   return (
     <>
       <TableContainerResponsive component={Paper} sx={{ overflowX: "auto" }}>
-        <Table aria-label="tabla de categorias">
+        <Table aria-label="tabla de fichas técnicas">
           <TableHead>
             <TableRow>
               <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>Nombre</StyledTableCell>
+              <StyledTableCell>Nombre del archivo PDF</StyledTableCell>
+              <StyledTableCell>Versión</StyledTableCell>
+              <StyledTableCell>Modelo</StyledTableCell>
+              <StyledTableCell>Segmento</StyledTableCell>
+              <StyledTableCell>Subcategoría</StyledTableCell>
               <StyledTableCell>Categoría</StyledTableCell>
+              <StyledTableCell>Fecha de creación</StyledTableCell>
+              <StyledTableCell>Fecha de actualización</StyledTableCell>
               <StyledTableCell>Acciones</StyledTableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             <AnimatePresence>
-              {subcategorias.length > 0 ? (
-                subcategorias.map((subcategoria) => (
+              {fichastecnicas && fichastecnicas.length > 0 ? (
+                fichastecnicas.map((fichastecnica) => (
                   <StyledTableRow
-                    key={subcategoria.id}
+                    key={fichastecnica.id}
                     component={motion.tr}
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ duration: 0.3 }}
-                    whileHover={{ scale: 1.02, backgroundColor: "#C0D4FC" }}
+                    whileHover={{ scale: 1.02, backgroundColor: "#E3ECFF" }}
                   >
                     <StyledTableCell data-label="ID">
-                      {subcategoria.id}
+                      {fichastecnica.id}
                     </StyledTableCell>
-                    <StyledTableCell data-label="Nombre">
-                      {subcategoria.name}
+
+                    <StyledTableCell data-label="Nombre del archivo">
+                      {fichastecnica.file_name}
                     </StyledTableCell>
+
+                    <StyledTableCell data-label="Versión">
+                      {fichastecnica.version}
+                    </StyledTableCell>
+
+                    <StyledTableCell data-label="Modelo">
+                      {fichastecnica.model?.name || "Sin modelo"}
+                    </StyledTableCell>
+
+                    <StyledTableCell data-label="Segmento">
+                      {fichastecnica.model?.segment?.name || "Sin segmento"}
+                    </StyledTableCell>
+
+                    <StyledTableCell data-label="Subcategoría">
+                      {fichastecnica.model?.segment?.subcategory?.name ||
+                        "Sin subcategoría"}
+                    </StyledTableCell>
+
                     <StyledTableCell data-label="Categoría">
-                      {subcategoria.category.name}
+                      {fichastecnica.model?.segment?.subcategory?.category
+                        ?.name || "Sin categoría"}
                     </StyledTableCell>
+
+                    <StyledTableCell data-label="Fecha de creación">
+                      {new Date(fichastecnica.created_at).toLocaleDateString()}
+                    </StyledTableCell>
+
+                    <StyledTableCell data-label="Fecha de actualización">
+                      {new Date(fichastecnica.updated_at).toLocaleDateString()}
+                    </StyledTableCell>
+
                     <StyledTableCell data-label="Acciones">
-                      <IconButton
-                        size="small"
-                        onClick={() => handleClickOpen(subcategoria.id)}
-                      >
-                        <Tooltip title="Editar subcategoría" placement="top">
+                      <Tooltip title="Editar ficha técnica" placement="top">
+                        <IconButton
+                          size="small"
+                          onClick={() => handleClickOpen(fichastecnica.id)}
+                        >
                           <EditIcon
                             sx={{
                               color: "#e7a62f",
@@ -121,37 +159,39 @@ export default function TableSubcategorías({ subcategorias }) {
                               "&:hover": { rotate: "30deg" },
                             }}
                           />
-                        </Tooltip>
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        onClick={() => DeleteSubCategorias(subcategoria.id)}
-                      >
-                        <Tooltip title="Eliminar subcategoría" placement="top">
+                        </IconButton>
+                      </Tooltip>
+
+                      <Tooltip title="Eliminar ficha técnica" placement="top">
+                        <IconButton
+                          size="small"
+                          onClick={() => DeleteFichasTecnicas(fichastecnica.id)}
+                        >
                           <DeleteIcon
                             sx={{
                               color: "#FF0000",
                               transition: "0.2s",
-                              "&:hover": { scale: "2" },
+                              "&:hover": { scale: "1.2" },
                             }}
                           />
-                        </Tooltip>
-                      </IconButton>
+                        </IconButton>
+                      </Tooltip>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={4} align="center">
-                    No hay subcategorías disponibles
+                  <TableCell colSpan={10} align="center">
+                    No hay fichas técnicas disponibles
                   </TableCell>
                 </TableRow>
               )}
             </AnimatePresence>
           </TableBody>
         </Table>
+
         {id_service !== null && (
-          <EditSubcategorías
+          <EditFichasTecnicas
             open={modalUpdate}
             handleClose={handleClickClose}
             id={id_service}

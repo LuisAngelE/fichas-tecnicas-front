@@ -18,9 +18,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#C0D4FC",
     color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
+    fontSize: 13,
+    textAlign: "center",
   },
 }));
 
@@ -46,7 +49,7 @@ const TableContainerResponsive = styled(TableContainer)(({ theme }) => ({
       display: "flex",
       justifyContent: "space-between",
       padding: "10px 5px",
-      borderBottom: "1px solid #000000ff",
+      borderBottom: "1px solid #000",
       "&:before": {
         content: "attr(data-label)",
         fontWeight: "bold",

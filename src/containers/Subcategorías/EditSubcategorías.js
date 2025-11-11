@@ -59,10 +59,10 @@ export default function EditSubcategorías({ open, handleClose, id }) {
               <Grid size={12}>
                 <TextField
                   fullWidth
-                  label="Nombre de la categoría"
+                  label="Nombre de la subcategoría"
                   defaultValue={subcategoria.name}
                   {...register("name", {
-                    required: "El nombre es obligatorio",
+                    required: "El nombre dela subcategoría es obligatorio",
                     minLength: { value: 1, message: "Mínimo 1 caracteres" },
                     maxLength: { value: 200, message: "Máximo 200 caracteres" },
                   })}

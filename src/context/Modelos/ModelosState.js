@@ -50,18 +50,18 @@ const ModelosState = ({ children }) => {
   };
 
   const GetModelos = () => {
-    MethodGet("/segments")
+    MethodGet("/models")
       .then((res) => {
         dispatch({
           type: GET_ALL_MODELOS,
-          payload: res.data.data,
+          payload: res.data,
         });
       })
       .catch(handleError);
   };
 
   const AddModelos = (data) => {
-    MethodPost("/segments", data)
+    MethodPost("/models", data)
       .then((res) => {
         dispatch({ type: ADD_MODELOS, payload: res.data });
         Swal.fire({
@@ -75,7 +75,7 @@ const ModelosState = ({ children }) => {
   };
 
   const UpdateModelos = (data) => {
-    MethodPut(`/segments/${data.id}`, data)
+    MethodPut(`/models/${data.id}`, data)
       .then((res) => {
         dispatch({ type: UPDATE_MODELOS, payload: res.data });
         Swal.fire({
@@ -100,7 +100,7 @@ const ModelosState = ({ children }) => {
       cancelButtonText: "No, volver",
     }).then((result) => {
       if (result.isConfirmed) {
-        MethodDelete(`/segments/${id}`)
+        MethodDelete(`/models/${id}`)
           .then((res) => {
             dispatch({ type: DELETE_MODELOS, payload: id });
             Swal.fire({

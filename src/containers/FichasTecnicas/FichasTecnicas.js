@@ -3,15 +3,17 @@ import Layout from "../../components/layout/Layout";
 import { Button, Grid, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { motion } from "framer-motion";
-import TableModelos from "../../components/Tables/TableModelos";
-import AddModelos from "./AddModelos";
-import ModelosContext from "../../context/Modelos/ModelosContext";
+import AddFichasTecnicas from "./AddFichasTecnicas";
+import TableFichasTecnicas from "../../components/Tables/TableFichasTecnicas";
+import FichasTecnicasContext from "../../context/FichasTecnicas/FichasTecnicasContext";
 
-const Modelos = () => {
-  const { modelos, GetModelos } = useContext(ModelosContext);
-  
+const FichasTecnicas = () => {
+  const { fichastecnicas, GetFichasTecnicas } = useContext(
+    FichasTecnicasContext
+  );
+
   useEffect(() => {
-    GetModelos();
+    GetFichasTecnicas();
   }, []);
 
   const [openModal, setOpenModal] = useState(false);
@@ -32,7 +34,7 @@ const Modelos = () => {
             variant="h5"
             sx={{ color: "black" }}
           >
-            Modelos
+            Fichas técnicas
           </Typography>
         </Grid>
         <Grid size={4}>
@@ -62,13 +64,13 @@ const Modelos = () => {
           </Button>
         </Grid>
         <Grid size={12}>
-          <TableModelos modelos={modelos} />
+          <TableFichasTecnicas fichastecnicas={fichastecnicas} />
         </Grid>
       </Grid>
 
-      <AddModelos modal={openModal} handleClose={handleClose} />
+      <AddFichasTecnicas modal={openModal} handleClose={handleClose} />
     </Layout>
   );
 };
 
-export default Modelos;
+export default FichasTecnicas;

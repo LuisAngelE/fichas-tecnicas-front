@@ -11,16 +11,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useContext, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import EditSegmentos from "../../containers/Segmentos/EditSegmentos";
 import ModelosContext from "../../context/Modelos/ModelosContext";
+import EditModelos from "../../containers/Modelos/EditModelos";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#C0D4FC",
     color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
+    fontSize: 13,
+    textAlign: "center",
   },
 }));
 
@@ -46,7 +49,7 @@ const TableContainerResponsive = styled(TableContainer)(({ theme }) => ({
       display: "flex",
       justifyContent: "space-between",
       padding: "10px 5px",
-      borderBottom: "1px solid #000000ff",
+      borderBottom: "1px solid #000",
       "&:before": {
         content: "attr(data-label)",
         fontWeight: "bold",
@@ -79,7 +82,8 @@ export default function TableModelos({ modelos }) {
             <TableRow>
               <StyledTableCell>ID</StyledTableCell>
               <StyledTableCell>Nombre</StyledTableCell>
-              <StyledTableCell>SubCategoría</StyledTableCell>
+              <StyledTableCell>Descripción</StyledTableCell>
+              <StyledTableCell>Segmento</StyledTableCell>
               <StyledTableCell>Acciones</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -102,15 +106,18 @@ export default function TableModelos({ modelos }) {
                     <StyledTableCell data-label="Nombre">
                       {modelo.name}
                     </StyledTableCell>
-                    <StyledTableCell data-label="SubCategoría">
-                      {modelo.subcategory.name}
+                    <StyledTableCell data-label="Descripción">
+                      {modelo.description}
+                    </StyledTableCell>
+                    <StyledTableCell data-label="Segmento">
+                      {modelo.segment.name}
                     </StyledTableCell>
                     <StyledTableCell data-label="Acciones">
                       <IconButton
                         size="small"
                         onClick={() => handleClickOpen(modelo.id)}
                       >
-                        <Tooltip title="Editar segmento" placement="top">
+                        <Tooltip title="Editar modelo" placement="top">
                           <EditIcon
                             sx={{
                               color: "#e7a62f",
@@ -124,7 +131,7 @@ export default function TableModelos({ modelos }) {
                         size="small"
                         onClick={() => DeleteModelos(modelo.id)}
                       >
-                        <Tooltip title="Eliminar segmento" placement="top">
+                        <Tooltip title="Eliminar modelo" placement="top">
                           <DeleteIcon
                             sx={{
                               color: "#FF0000",
@@ -139,8 +146,8 @@ export default function TableModelos({ modelos }) {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={4} align="center">
-                    No hay segmentos disponibles
+                  <TableCell colSpan={5} align="center">
+                    No hay modelos disponibles
                   </TableCell>
                 </TableRow>
               )}
@@ -148,7 +155,7 @@ export default function TableModelos({ modelos }) {
           </TableBody>
         </Table>
         {id_service !== null && (
-          <EditSegmentos
+          <EditModelos
             open={modalUpdate}
             handleClose={handleClickClose}
             id={id_service}
