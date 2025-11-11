@@ -9,8 +9,7 @@ import TableSegmentos from "../../components/Tables/TableSegmentos";
 
 const Segmentos = () => {
   const { segmentos, GetSegmentos } = useContext(SegmentosContext);
-  console.log(segmentos, "los segmentos");
-
+  
   useEffect(() => {
     GetSegmentos();
   }, []);

@@ -54,7 +54,7 @@ const SegmentosState = ({ children }) => {
       .then((res) => {
         dispatch({
           type: GET_ALL_SEGMENTOS,
-          payload: res.data.data,
+          payload: res.data,
         });
       })
       .catch(handleError);
@@ -66,7 +66,7 @@ const SegmentosState = ({ children }) => {
         dispatch({ type: ADD_SEGMENTOS, payload: res.data });
         Swal.fire({
           title: "Éxito",
-          text: "Categoría agregada con éxito",
+          text: "Segmento agregado con éxito",
           icon: "success",
         });
         GetSegmentos();
@@ -80,7 +80,7 @@ const SegmentosState = ({ children }) => {
         dispatch({ type: UPDATE_SEGMENTOS, payload: res.data });
         Swal.fire({
           title: "Éxito",
-          text: "Categoría actualizada con éxito",
+          text: "Segmento actualizado con éxito",
           icon: "success",
         });
         GetSegmentos();
@@ -91,7 +91,7 @@ const SegmentosState = ({ children }) => {
   const DeleteSegmentos = (id) => {
     Swal.fire({
       title: "¿Estás seguro?",
-      text: "La categoría seleccionada será eliminada",
+      text: "El segmento seleccionado será eliminado",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
