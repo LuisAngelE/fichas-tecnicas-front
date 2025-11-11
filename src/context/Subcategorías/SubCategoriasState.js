@@ -54,7 +54,7 @@ const SubCategoriasState = ({ children }) => {
       .then((res) => {
         dispatch({
           type: GET_ALL_SUBCATEGORIAS,
-          payload: res.data.data,
+          payload: res.data,
         });
       })
       .catch(handleError);
@@ -66,7 +66,7 @@ const SubCategoriasState = ({ children }) => {
         dispatch({ type: ADD_SUBCATEGORIAS, payload: res.data });
         Swal.fire({
           title: "Éxito",
-          text: "Categoría agregada con éxito",
+          text: "Subcategoría agregada con éxito",
           icon: "success",
         });
         GetSubCategories();
@@ -80,7 +80,7 @@ const SubCategoriasState = ({ children }) => {
         dispatch({ type: UPDATE_SUBCATEGORIAS, payload: res.data });
         Swal.fire({
           title: "Éxito",
-          text: "Categoría actualizada con éxito",
+          text: "Subcategoría actualizada con éxito",
           icon: "success",
         });
         GetSubCategories();

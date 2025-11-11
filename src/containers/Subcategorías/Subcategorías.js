@@ -9,7 +9,6 @@ import { motion } from "framer-motion";
 
 const Subcategorías = () => {
   const { subcategorias, GetSubCategories } = useContext(SubCategoriasContext);
-  console.log(subcategorias, "las subcategorias");
 
   useEffect(() => {
     GetSubCategories();

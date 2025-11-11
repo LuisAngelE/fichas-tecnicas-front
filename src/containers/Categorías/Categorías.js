@@ -9,7 +9,6 @@ import { motion } from "framer-motion";
 
 const Categorias = () => {
   const { categorias, GetCategories } = useContext(CategoriasContext);
-  console.log(categorias, "las categorias");
 
   useEffect(() => {
     GetCategories();

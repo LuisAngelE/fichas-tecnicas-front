@@ -54,12 +54,11 @@ const CategoriasState = ({ children }) => {
       .then((res) => {
         dispatch({
           type: GET_ALL_CATEGORIAS,
-          payload: res.data.data,
+          payload: res.data,
         });
       })
       .catch(handleError);
   };
-
 
   const AddCategorias = (data) => {
     MethodPost("/categories", data)
