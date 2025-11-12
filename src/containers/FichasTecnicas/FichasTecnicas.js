@@ -1,19 +1,60 @@
 import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/layout/Layout";
-import { Button, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { motion } from "framer-motion";
 import AddFichasTecnicas from "./AddFichasTecnicas";
 import TableFichasTecnicas from "../../components/Tables/TableFichasTecnicas";
 import FichasTecnicasContext from "../../context/FichasTecnicas/FichasTecnicasContext";
+import ModelosContext from "../../context/Modelos/ModelosContext";
+import SegmentosContext from "../../context/Segmentos/SegmentosContext";
+import SubCategoriasContext from "../../context/Subcategorías/SubCategoriasContext";
+import CategoriasContext from "../../context/Categorias/CategoriasContext";
 
 const FichasTecnicas = () => {
+  const { modelos, GetModelos } = useContext(ModelosContext);
+  const { segmentos, GetSegmentos } = useContext(SegmentosContext);
+  const { categorias, GetCategories } = useContext(CategoriasContext);
+  const { subcategorias, GetSubCategories } = useContext(SubCategoriasContext);
+
   const { fichastecnicas, GetFichasTecnicas } = useContext(
     FichasTecnicasContext
   );
 
+  const [searchNombre, setSearchNombre] = useState("");
+  const [searchModelo, setSearcModelo] = useState("");
+  const [searchSegmento, setSearchSegmento] = useState("");
+  const [searchSubcategorias, setSearchSubcategorias] = useState("");
+  const [searchCategorias, setSearchCategorias] = useState("");
+
   useEffect(() => {
-    GetFichasTecnicas();
+    GetFichasTecnicas(
+      searchNombre,
+      searchModelo,
+      searchSegmento,
+      searchSubcategorias,
+      searchCategorias
+    );
+  }, [
+    searchNombre,
+    searchModelo,
+    searchSegmento,
+    searchSubcategorias,
+    searchCategorias,
+  ]);
+
+  useEffect(() => {
+    GetModelos();
+    GetSegmentos();
+    GetCategories();
+    GetSubCategories();
   }, []);
 
   const [openModal, setOpenModal] = useState(false);
@@ -64,11 +105,96 @@ const FichasTecnicas = () => {
           </Button>
         </Grid>
         <Grid size={12}>
+          <Box
+            display="flex"
+            flexWrap="wrap"
+            gap={2}
+            sx={{
+              "& > *": {
+                flex: "1 1 200px",
+              },
+            }}
+          >
+            <TextField
+              label="Filtrar por nombre"
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={searchNombre}
+              onChange={(e) => setSearchNombre(e.target.value)}
+            />
+            <TextField
+              select
+              label="Modelos"
+              value={searchModelo}
+              onChange={(e) => setSearcModelo(e.target.value)}
+              fullWidth
+              size="small"
+            >
+              <MenuItem value="">Filtrar por tipo de modelo</MenuItem>
+              {modelos.map((modelo) => (
+                <MenuItem key={modelo.id} value={modelo.id}>
+                  {modelo.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              select
+              label="Segmentos"
+              value={searchSegmento}
+              onChange={(e) => setSearchSegmento(e.target.value)}
+              fullWidth
+              size="small"
+            >
+              <MenuItem value="">Filtrar por tipo de segmento</MenuItem>
+              {segmentos.map((segmento) => (
+                <MenuItem key={segmento.id} value={segmento.id}>
+                  {segmento.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              select
+              label="Subcategorías"
+              value={searchSubcategorias}
+              onChange={(e) => setSearchSubcategorias(e.target.value)}
+              fullWidth
+              size="small"
+            >
+              <MenuItem value="">Filtrar por tipo de subcategoría</MenuItem>
+              {subcategorias.map((subcategoria) => (
+                <MenuItem key={subcategoria.id} value={subcategoria.id}>
+                  {subcategoria.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              select
+              label="Categorías"
+              value={searchCategorias}
+            onChange={(e) => setSearchCategorias(e.target.value)}
+              fullWidth
+              size="small"
+            >
+              <MenuItem value="">Filtrar por tipo de categoría</MenuItem>
+              {categorias.map((categoria) => (
+                <MenuItem key={categoria.id} value={categoria.id}>
+                  {categoria.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+        </Grid>
+        <Grid size={12}>
           <TableFichasTecnicas fichastecnicas={fichastecnicas} />
         </Grid>
       </Grid>
 
-      <AddFichasTecnicas modal={openModal} handleClose={handleClose} />
+      <AddFichasTecnicas
+        modal={openModal}
+        handleClose={handleClose}
+        modelos={modelos}
+      />
     </Layout>
   );
 };

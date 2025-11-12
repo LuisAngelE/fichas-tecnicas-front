@@ -63,6 +63,7 @@ const TableContainerResponsive = styled(TableContainer)(({ theme }) => ({
 }));
 
 export default function TableCategorias({ fichastecnicas }) {
+  const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
   const { DeleteFichasTecnicas } = useContext(FichasTecnicasContext);
   const [modalUpdate, OpenModalUpdate] = useState(false);
   const [id_service, saveIdService] = useState(null);
@@ -85,6 +86,8 @@ export default function TableCategorias({ fichastecnicas }) {
               <StyledTableCell>ID</StyledTableCell>
               <StyledTableCell>Nombre del archivo PDF</StyledTableCell>
               <StyledTableCell>Versión</StyledTableCell>
+              <StyledTableCell>Ver PDF</StyledTableCell>
+              <StyledTableCell>Creador</StyledTableCell>
               <StyledTableCell>Modelo</StyledTableCell>
               <StyledTableCell>Segmento</StyledTableCell>
               <StyledTableCell>Subcategoría</StyledTableCell>
@@ -120,6 +123,33 @@ export default function TableCategorias({ fichastecnicas }) {
                       {fichastecnica.version}
                     </StyledTableCell>
 
+                    <StyledTableCell data-label="Ver PDF">
+                      <Tooltip title="Ver ficha técnica" placement="top">
+                        <a
+                          href={`${baseUrl}/storage/${fichastecnica.file_path}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            textDecoration: "none",
+                            color: "red",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Ver PDF
+                        </a>
+                      </Tooltip>
+                    </StyledTableCell>
+
+                    <StyledTableCell data-label="Creador">
+                      {fichastecnica.user
+                        ? `${fichastecnica.user.first_name ?? ""} ${
+                            fichastecnica.user.middle_name ?? ""
+                          } ${fichastecnica.user.last_name ?? ""} ${
+                            fichastecnica.user.second_last_name ?? ""
+                          }`.trim()
+                        : "Sin creador"}
+                    </StyledTableCell>
+
                     <StyledTableCell data-label="Modelo">
                       {fichastecnica.model?.name || "Sin modelo"}
                     </StyledTableCell>
@@ -139,11 +169,17 @@ export default function TableCategorias({ fichastecnicas }) {
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Fecha de creación">
-                      {new Date(fichastecnica.created_at).toLocaleDateString()}
+                      {new Date(fichastecnica.created_at)
+                        .toISOString()
+                        .slice(0, 19)
+                        .replace("T", " ")}
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Fecha de actualización">
-                      {new Date(fichastecnica.updated_at).toLocaleDateString()}
+                      {new Date(fichastecnica.updated_at)
+                        .toISOString()
+                        .slice(0, 19)
+                        .replace("T", " ")}
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Acciones">
@@ -181,7 +217,7 @@ export default function TableCategorias({ fichastecnicas }) {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={10} align="center">
+                  <TableCell colSpan={12} align="center">
                     No hay fichas técnicas disponibles
                   </TableCell>
                 </TableRow>
