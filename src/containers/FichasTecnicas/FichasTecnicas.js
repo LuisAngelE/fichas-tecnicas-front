@@ -19,6 +19,7 @@ import SubCategoriasContext from "../../context/Subcategorías/SubCategoriasCont
 import CategoriasContext from "../../context/Categorias/CategoriasContext";
 
 const FichasTecnicas = () => {
+  const user_type = localStorage.getItem("user_type");
   const { modelos, GetModelos } = useContext(ModelosContext);
   const { segmentos, GetSegmentos } = useContext(SegmentosContext);
   const { categorias, GetCategories } = useContext(CategoriasContext);
@@ -78,32 +79,34 @@ const FichasTecnicas = () => {
             Fichas técnicas
           </Typography>
         </Grid>
-        <Grid size={4}>
-          <Button
-            onClick={handleClickOpen}
-            fullWidth
-            variant="contained"
-            sx={{
-              bgcolor: "#C0D4FC",
-              color: "black",
-              "&:hover": {
+        {user_type === "1" && (
+          <Grid size={4}>
+            <Button
+              onClick={handleClickOpen}
+              fullWidth
+              variant="contained"
+              sx={{
                 bgcolor: "#C0D4FC",
-                boxShadow: 3,
-                transform: "scale(1.05)",
-              },
-              borderRadius: 3,
-              py: 1.5,
-              fontWeight: "bold",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-              transition: "all 0.3s ease",
-            }}
-            component={motion.button}
-            whileTap={{ scale: 0.95 }}
-          >
-            <AddIcon sx={{ mr: 1 }} />
-            Agregar
-          </Button>
-        </Grid>
+                color: "black",
+                "&:hover": {
+                  bgcolor: "#C0D4FC",
+                  boxShadow: 3,
+                  transform: "scale(1.05)",
+                },
+                borderRadius: 3,
+                py: 1.5,
+                fontWeight: "bold",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+                transition: "all 0.3s ease",
+              }}
+              component={motion.button}
+              whileTap={{ scale: 0.95 }}
+            >
+              <AddIcon sx={{ mr: 1 }} />
+              Agregar
+            </Button>
+          </Grid>
+        )}
         <Grid size={12}>
           <Box
             display="flex"
@@ -172,7 +175,7 @@ const FichasTecnicas = () => {
               select
               label="Categorías"
               value={searchCategorias}
-            onChange={(e) => setSearchCategorias(e.target.value)}
+              onChange={(e) => setSearchCategorias(e.target.value)}
               fullWidth
               size="small"
             >

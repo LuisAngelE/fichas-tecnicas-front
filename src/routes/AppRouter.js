@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { PrivateRouter } from "./PrivateRouter";
 import AuthContext from "../context/Auth/AuthContext";
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import LoadingComponent from "../components/loading/LoadingComponent";
 import AdminRoutes from "./AdminRoutes";
 import ViewerRoutes from "./ViewerRoutes";
@@ -37,18 +37,8 @@ const AppRouter = () => {
   }
 
   if (!autenticado && errorAuth) {
-    return (
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        style={{ height: "100vh" }}
-      >
-        <Typography variant="body2" color="textSecondary">
-          {errorAuth}
-        </Typography>
-      </Grid>
-    );
+    window.location.href = "https://ldrhsys.ldrhumanresources.com/";
+    return null;
   }
 
   const user_type = localStorage.getItem("user_type");
@@ -62,23 +52,6 @@ const AppRouter = () => {
       <Switch>
         {autenticado && PrivateComponent && (
           <Redirect exact from="/" to="/Inicio" />
-        )}
-
-        {!autenticado && (
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                align="center"
-                style={{ marginTop: "20px" }}
-              >
-                No estás autenticado.
-              </Typography>
-            )}
-          />
         )}
 
         {PrivateComponent && (

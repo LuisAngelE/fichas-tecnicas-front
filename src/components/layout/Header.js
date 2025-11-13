@@ -30,7 +30,7 @@ import AuthContext from "../../context/Auth/AuthContext";
 import { useContext } from "react";
 
 export default function Header({ children }) {
-  const { usuario } = useContext(AuthContext);
+  const { usuario, cerrarSesion } = useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (open) => (event) => {
@@ -59,7 +59,14 @@ export default function Header({ children }) {
     },
   ];
 
-  const Viewer = [{ name: "Inicio", value: "/Inicio", icon: <HomeIcon /> }];
+  const Viewer = [
+    { name: "Inicio", value: "/Inicio", icon: <HomeIcon /> },
+    {
+      name: "Fichas técnicas",
+      value: "/Fichas-tecnicas",
+      icon: <DescriptionIcon />,
+    },
+  ];
 
   const menuItems = user_type === "1" ? Admin : user_type === "2" ? Viewer : [];
 
@@ -121,7 +128,11 @@ export default function Header({ children }) {
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText primary="Cerrar sesión" sx={{ color: "#000000ff" }} />
+            <ListItemText
+              primary="Cerrar sesión"
+              sx={{ color: "#000000ff" }}
+              onClick={() => cerrarSesion()}
+            />
           </ListItemButton>
         </ListItem>
       </Box>

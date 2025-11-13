@@ -3,8 +3,14 @@ import AuthContext from "./AuthContext";
 import AuthReducer from "./AuthReducer";
 import MethodGet, { MethodPost } from "../../config/service";
 import tokenAuth from "../../config/TokenAuth";
+import Swal from "sweetalert2";
 
-import { OBTENER_USUARIO, LOGIN_EXITOSO, LOGIN_ERROR } from "../../types";
+import {
+  OBTENER_USUARIO,
+  LOGIN_EXITOSO,
+  LOGIN_ERROR,
+  CERRAR_SESION,
+} from "../../types";
 
 const AuthState = (props) => {
   const initialState = {
@@ -63,6 +69,38 @@ const AuthState = (props) => {
     }
   };
 
+  const cerrarSesion = () => {
+    Swal.fire({
+      title: "¿Cerrar sesión?",
+      text: "Se cerrará tu sesión actual",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, cerrar sesión",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user_type");
+        localStorage.removeItem("user_id");
+        dispatch({
+          type: CERRAR_SESION,
+        });
+
+        Swal.fire({
+          title: "Sesión cerrada",
+          text: "Has cerrado sesión correctamente",
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false,
+        }).then(() => {
+          window.location.href = "/";
+        });
+      }
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -75,6 +113,7 @@ const AuthState = (props) => {
         errorAuth: state.errorAuth,
         usuarioAutenticado,
         loginExterno,
+        cerrarSesion,
       }}
     >
       {props.children}

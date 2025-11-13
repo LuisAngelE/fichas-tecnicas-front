@@ -12,32 +12,29 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Button,
+  Avatar,
   Typography,
   Grid,
+  Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
-import PersonIcon from "@mui/icons-material/Person";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 import Logo from "../layout/img/FOTON.png";
+import CategoryIcon from "@mui/icons-material/Category";
+import { blue } from "@mui/material/colors";
+import DescriptionIcon from "@mui/icons-material/Description";
+import LayersIcon from "@mui/icons-material/Layers";
+import ViewModuleIcon from "@mui/icons-material/ViewModule";
+import DevicesOtherIcon from "@mui/icons-material/DevicesOther";
+import AuthContext from "../../context/Auth/AuthContext";
+import { useContext } from "react";
 import Noresultados from "./gif/404.gif";
 
 export default function NoResultados() {
+  const { usuario, cerrarSesion } = useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
-  const user_type = localStorage.getItem("user_type");
-
-  const Admin = [
-    { name: "Inicio", value: "/Inicio", icon: <HomeIcon /> },
-    { name: "Mi perfil", value: "/Perfil", icon: <PersonIcon /> },
-  ];
-
-  const Viewer = [
-    { name: "Inicio", value: "/Inicio", icon: <HomeIcon /> },
-    { name: "Mi perfil", value: "/Perfil", icon: <PersonIcon /> },
-  ];
-
-  const menuItems = user_type === "1" ? Admin : user_type === "2" ? Viewer : [];
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -50,24 +47,98 @@ export default function NoResultados() {
     setOpen(open);
   };
 
+  const user_type = localStorage.getItem("user_type");
+
+  const Admin = [
+    { name: "Inicio", value: "/Inicio", icon: <HomeIcon /> },
+    { name: "Categorías", value: "/Categorías", icon: <CategoryIcon /> },
+    { name: "Subcategorías", value: "/Subcategorías", icon: <LayersIcon /> },
+    { name: "Segmentos", value: "/Segmentos", icon: <ViewModuleIcon /> },
+    { name: "Modelos", value: "/Modelos", icon: <DevicesOtherIcon /> },
+    {
+      name: "Fichas técnicas",
+      value: "/Fichas-tecnicas",
+      icon: <DescriptionIcon />,
+    },
+  ];
+
+  const Viewer = [
+    { name: "Inicio", value: "/Inicio", icon: <HomeIcon /> },
+    {
+      name: "Fichas técnicas",
+      value: "/Fichas-tecnicas",
+      icon: <DescriptionIcon />,
+    },
+  ];
+
+  const menuItems = user_type === "1" ? Admin : user_type === "2" ? Viewer : [];
+
+  const inicial = usuario?.first_name
+    ? usuario.first_name.charAt(0).toUpperCase()
+    : "U";
+
+  const nombreCompleto = usuario
+    ? `${usuario.first_name ?? ""} ${usuario.middle_name ?? ""} ${
+        usuario.last_name ?? ""
+      } ${usuario.second_last_name ?? ""}`.trim()
+    : "Usuario";
+
   const list = () => (
     <Box
-      sx={{ width: 250 }}
+      sx={{
+        width: 250,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      <List>
-        {menuItems.map((item, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton component={Link} to={item.value}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.name} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
+      <Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            py: 3,
+          }}
+        >
+          <Avatar sx={{ bgcolor: blue[300], width: 56, height: 56 }}>
+            {inicial}
+          </Avatar>
+          <Typography variant="subtitle1" sx={{ mt: 1 }}>
+            {nombreCompleto}
+          </Typography>
+        </Box>
+        <Divider />
+        <List>
+          {menuItems.map((item, index) => (
+            <ListItem key={index} disablePadding>
+              <ListItemButton component={Link} to={item.value}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.name} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+      <Box>
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/">
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Cerrar sesión"
+              sx={{ color: "#000000ff" }}
+              onClick={() => cerrarSesion()}
+            />
+          </ListItemButton>
+        </ListItem>
+      </Box>
     </Box>
   );
 

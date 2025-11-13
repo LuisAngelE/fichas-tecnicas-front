@@ -67,6 +67,7 @@ export default function TableCategorias({ fichastecnicas }) {
   const { DeleteFichasTecnicas } = useContext(FichasTecnicasContext);
   const [modalUpdate, OpenModalUpdate] = useState(false);
   const [id_service, saveIdService] = useState(null);
+  const user_type = localStorage.getItem("user_type");
 
   const handleClickOpen = (id) => {
     OpenModalUpdate(true);
@@ -94,7 +95,7 @@ export default function TableCategorias({ fichastecnicas }) {
               <StyledTableCell>Categoría</StyledTableCell>
               <StyledTableCell>Fecha de creación</StyledTableCell>
               <StyledTableCell>Fecha de actualización</StyledTableCell>
-              <StyledTableCell>Acciones</StyledTableCell>
+              {user_type === "1" && <StyledTableCell>Acciones</StyledTableCell>}
             </TableRow>
           </TableHead>
 
@@ -182,37 +183,41 @@ export default function TableCategorias({ fichastecnicas }) {
                         .replace("T", " ")}
                     </StyledTableCell>
 
-                    <StyledTableCell data-label="Acciones">
-                      <Tooltip title="Editar ficha técnica" placement="top">
-                        <IconButton
-                          size="small"
-                          onClick={() => handleClickOpen(fichastecnica.id)}
-                        >
-                          <EditIcon
-                            sx={{
-                              color: "#e7a62f",
-                              transition: "0.2s",
-                              "&:hover": { rotate: "30deg" },
-                            }}
-                          />
-                        </IconButton>
-                      </Tooltip>
+                    {user_type === "1" && (
+                      <StyledTableCell data-label="Acciones">
+                        <Tooltip title="Editar ficha técnica" placement="top">
+                          <IconButton
+                            size="small"
+                            onClick={() => handleClickOpen(fichastecnica.id)}
+                          >
+                            <EditIcon
+                              sx={{
+                                color: "#e7a62f",
+                                transition: "0.2s",
+                                "&:hover": { rotate: "30deg" },
+                              }}
+                            />
+                          </IconButton>
+                        </Tooltip>
 
-                      <Tooltip title="Eliminar ficha técnica" placement="top">
-                        <IconButton
-                          size="small"
-                          onClick={() => DeleteFichasTecnicas(fichastecnica.id)}
-                        >
-                          <DeleteIcon
-                            sx={{
-                              color: "#FF0000",
-                              transition: "0.2s",
-                              "&:hover": { scale: "1.2" },
-                            }}
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    </StyledTableCell>
+                        <Tooltip title="Eliminar ficha técnica" placement="top">
+                          <IconButton
+                            size="small"
+                            onClick={() =>
+                              DeleteFichasTecnicas(fichastecnica.id)
+                            }
+                          >
+                            <DeleteIcon
+                              sx={{
+                                color: "#FF0000",
+                                transition: "0.2s",
+                                "&:hover": { scale: "1.2" },
+                              }}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </StyledTableCell>
+                    )}
                   </StyledTableRow>
                 ))
               ) : (

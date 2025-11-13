@@ -1,4 +1,9 @@
-import { OBTENER_USUARIO, LOGIN_EXITOSO, LOGIN_ERROR } from "../../types";
+import {
+  OBTENER_USUARIO,
+  LOGIN_EXITOSO,
+  LOGIN_ERROR,
+  CERRAR_SESION,
+} from "../../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -23,6 +28,14 @@ export default (state, action) => {
         token: null,
         cargando: false,
         errorAuth: "No está autenticado",
+      };
+    case CERRAR_SESION:
+      return {
+        ...state,
+        token: null,
+        usuario: null,
+        autenticado: false,
+        cargando: false,
       };
     default:
       return state;
