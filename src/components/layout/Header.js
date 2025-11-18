@@ -19,13 +19,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
-import Logo from "../layout/img/FOTON.png";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import Logo from "../layout/img/LDR-blanco-Logo.png";
 import CategoryIcon from "@mui/icons-material/Category";
-import { blue } from "@mui/material/colors";
+import TableRowsIcon from "@mui/icons-material/TableRows";
 import DescriptionIcon from "@mui/icons-material/Description";
 import LayersIcon from "@mui/icons-material/Layers";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
-import DevicesOtherIcon from "@mui/icons-material/DevicesOther";
 import AuthContext from "../../context/Auth/AuthContext";
 import { useContext } from "react";
 
@@ -51,7 +51,12 @@ export default function Header({ children }) {
     { name: "Categorías", value: "/Categorías", icon: <CategoryIcon /> },
     { name: "Subcategorías", value: "/Subcategorías", icon: <LayersIcon /> },
     { name: "Segmentos", value: "/Segmentos", icon: <ViewModuleIcon /> },
-    { name: "Modelos", value: "/Modelos", icon: <DevicesOtherIcon /> },
+    { name: "Modelos", value: "/Modelos", icon: <DirectionsCarIcon /> },
+    {
+      name: "Tabla de fichas",
+      value: "/Tabla-fichas-tecnicas",
+      icon: <TableRowsIcon />,
+    },
     {
       name: "Fichas técnicas",
       value: "/Fichas-tecnicas",
@@ -61,6 +66,11 @@ export default function Header({ children }) {
 
   const Viewer = [
     { name: "Inicio", value: "/Inicio", icon: <HomeIcon /> },
+    {
+      name: "Tabla de fichas",
+      value: "/Tabla-fichas-tecnicas",
+      icon: <TableRowsIcon />,
+    },
     {
       name: "Fichas técnicas",
       value: "/Fichas-tecnicas",
@@ -73,12 +83,6 @@ export default function Header({ children }) {
   const inicial = usuario?.first_name
     ? usuario.first_name.charAt(0).toUpperCase()
     : "U";
-
-  const nombreCompleto = usuario
-    ? `${usuario.first_name ?? ""} ${usuario.middle_name ?? ""} ${
-        usuario.last_name ?? ""
-      } ${usuario.second_last_name ?? ""}`.trim()
-    : "Usuario";
 
   const list = () => (
     <Box
@@ -102,11 +106,23 @@ export default function Header({ children }) {
             py: 3,
           }}
         >
-          <Avatar sx={{ bgcolor: blue[300], width: 56, height: 56 }}>
+          <Avatar
+            sx={{
+              bgcolor: "#546B85",
+              width: 56,
+              height: 56,
+            }}
+          >
             {inicial}
           </Avatar>
-          <Typography variant="subtitle1" sx={{ mt: 1 }}>
-            {nombreCompleto}
+
+          <Typography
+            variant="subtitle1"
+            sx={{ mt: 1, whiteSpace: "pre-line", textAlign: "center" }}
+          >
+            {`${usuario.first_name ?? ""} ${usuario.middle_name ?? ""}\n${
+              usuario.last_name ?? ""
+            } ${usuario.second_last_name ?? ""}`}
           </Typography>
         </Box>
         <Divider />
@@ -142,7 +158,7 @@ export default function Header({ children }) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ background: "#C0D4FC" }}>
+      <AppBar position="fixed" sx={{ background: "#546B85" }}>
         <Toolbar
           sx={{
             display: "flex",
@@ -157,7 +173,7 @@ export default function Header({ children }) {
             onClick={toggleDrawer(true)}
             edge="start"
             sx={{
-              color: "black",
+              color: "white",
               transition: "0.2s",
               zIndex: 2,
             }}
@@ -175,7 +191,7 @@ export default function Header({ children }) {
               alignItems: "center",
             }}
           >
-            <img src={Logo} alt="logo" style={{ width: 80, height: 80 }} />
+            <img src={Logo} alt="logo" style={{ width: 60, height: 60 }} />
           </Box>
         </Toolbar>
       </AppBar>

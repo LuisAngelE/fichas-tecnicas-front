@@ -6,6 +6,7 @@ import Categorías from "../containers/Categorías/Categorías";
 import Subcategorías from "../containers/Subcategorías/Subcategorías";
 import Segmentos from "../containers/Segmentos/Segmentos";
 import Modelos from "../containers/Modelos/Modelos";
+import TableFichasTecnicas from "../containers/TableFichasTecnicas/TableFichasTecnicas";
 import FichasTecnicas from "../containers/FichasTecnicas/FichasTecnicas";
 
 const AdminRoutes = () => {
@@ -17,6 +18,11 @@ const AdminRoutes = () => {
       <Route exact path="/Segmentos" component={Segmentos} />
       <Route exact path="/Modelos" component={Modelos} />
       <Route exact path="/Fichas-tecnicas" component={FichasTecnicas} />
+      <Route
+        exact
+        path="/Tabla-fichas-tecnicas"
+        component={TableFichasTecnicas}
+      />
 
       <Route exact path="/no-resultados" component={NoResultados} />
       <Route component={NoResultados} />

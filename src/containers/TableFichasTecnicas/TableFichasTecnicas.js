@@ -1,14 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/layout/Layout";
-import { Box, Grid, MenuItem, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { motion } from "framer-motion";
+import AddFichasTecnicas from "./AddFichasTecnicas";
+import TableFichasTecnicas from "../../components/Tables/TableFichasTecnicas";
 import FichasTecnicasContext from "../../context/FichasTecnicas/FichasTecnicasContext";
 import ModelosContext from "../../context/Modelos/ModelosContext";
 import SegmentosContext from "../../context/Segmentos/SegmentosContext";
 import SubCategoriasContext from "../../context/Subcategorías/SubCategoriasContext";
 import CategoriasContext from "../../context/Categorias/CategoriasContext";
-import CardFichasTecnicas from "../../components/Cards/CardFichasTecnicas";
 
 const FichasTecnicas = () => {
+  const user_type = localStorage.getItem("user_type");
   const { modelos, GetModelos } = useContext(ModelosContext);
   const { segmentos, GetSegmentos } = useContext(SegmentosContext);
   const { categorias, GetCategories } = useContext(CategoriasContext);
@@ -47,6 +58,14 @@ const FichasTecnicas = () => {
     GetSubCategories();
   }, []);
 
+  const [openModal, setOpenModal] = useState(false);
+  const handleClickOpen = () => {
+    setOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
   return (
     <Layout>
       <Grid container spacing={2} sx={{ padding: 2 }}>
@@ -57,9 +76,37 @@ const FichasTecnicas = () => {
             variant="h5"
             sx={{ color: "black" }}
           >
-            Fichas técnicas
+            Tabla de fichas técnicas
           </Typography>
         </Grid>
+        {user_type === "1" && (
+          <Grid size={4}>
+            <Button
+              onClick={handleClickOpen}
+              fullWidth
+              variant="contained"
+              sx={{
+                bgcolor: "#C0D4FC",
+                color: "black",
+                "&:hover": {
+                  bgcolor: "#C0D4FC",
+                  boxShadow: 3,
+                  transform: "scale(1.05)",
+                },
+                borderRadius: 3,
+                py: 1.5,
+                fontWeight: "bold",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+                transition: "all 0.3s ease",
+              }}
+              component={motion.button}
+              whileTap={{ scale: 0.95 }}
+            >
+              <AddIcon sx={{ mr: 1 }} />
+              Agregar
+            </Button>
+          </Grid>
+        )}
         <Grid size={12}>
           <Box
             display="flex"
@@ -142,9 +189,15 @@ const FichasTecnicas = () => {
           </Box>
         </Grid>
         <Grid size={12}>
-          <CardFichasTecnicas fichastecnicas={fichastecnicas} />
+          <TableFichasTecnicas fichastecnicas={fichastecnicas} />
         </Grid>
       </Grid>
+
+      <AddFichasTecnicas
+        modal={openModal}
+        handleClose={handleClose}
+        modelos={modelos}
+      />
     </Layout>
   );
 };

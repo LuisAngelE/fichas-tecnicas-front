@@ -12,7 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FichasTecnicasContext from "../../context/FichasTecnicas/FichasTecnicasContext";
-import EditFichasTecnicas from "../../containers/FichasTecnicas/EditFichasTecnicas";
+import EditFichasTecnicas from "../../containers/TableFichasTecnicas/EditFichasTecnicas";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
