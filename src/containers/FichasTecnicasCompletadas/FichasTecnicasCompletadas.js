@@ -12,20 +12,20 @@ import AddIcon from "@mui/icons-material/Add";
 import { motion } from "framer-motion";
 import AddFichasTecnicas from "./AddFichasTecnicas";
 import TableFichasTecnicas from "../../components/Tables/TableFichasTecnicas";
-import FichasTecnicasContext from "../../context/FichasTecnicas/FichasTecnicasContext";
 import ModelosContext from "../../context/Modelos/ModelosContext";
 import SegmentosContext from "../../context/Segmentos/SegmentosContext";
 import SubCategoriasContext from "../../context/Subcategorías/SubCategoriasContext";
 import CategoriasContext from "../../context/Categorias/CategoriasContext";
+import FichasTecnicasContext from "../../context/FichasTecnicas/FichasTecnicasContext";
 
-const FichasTecnicas = () => {
+const FichasTecnicasCompletadas = () => {
   const user_type = localStorage.getItem("user_type");
   const { modelos, GetModelos } = useContext(ModelosContext);
   const { segmentos, GetSegmentos } = useContext(SegmentosContext);
   const { categorias, GetCategories } = useContext(CategoriasContext);
   const { subcategorias, GetSubCategories } = useContext(SubCategoriasContext);
 
-  const { fichastecnicas, GetFichasTecnicas } = useContext(
+  const { fichastecnicas, GetFichasTecnicasFinalizadas } = useContext(
     FichasTecnicasContext
   );
 
@@ -36,7 +36,7 @@ const FichasTecnicas = () => {
   const [searchCategorias, setSearchCategorias] = useState("");
 
   useEffect(() => {
-    GetFichasTecnicas(
+    GetFichasTecnicasFinalizadas(
       searchNombre,
       searchModelo,
       searchSegmento,
@@ -76,7 +76,7 @@ const FichasTecnicas = () => {
             variant="h5"
             sx={{ color: "black" }}
           >
-            Tabla de fichas técnicas
+            Fichas técnicas completadas
           </Typography>
         </Grid>
         {user_type === "1" && (
@@ -202,4 +202,4 @@ const FichasTecnicas = () => {
   );
 };
 
-export default FichasTecnicas;
+export default FichasTecnicasCompletadas;

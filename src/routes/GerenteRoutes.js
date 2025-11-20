@@ -5,7 +5,7 @@ import NoResultados from "../components/layout/NoResultados";
 import FichasTecnicas from "../containers/FichasTecnicas/FichasTecnicas";
 import FichasTecnicasCompletadas from "../containers/FichasTecnicasCompletadas/FichasTecnicasCompletadas";
 
-const ViewerRoutes = () => {
+const GerenteRoutes = () => {
   return (
     <Switch>
       <Route exact path="/Inicio" component={Inicio} />
@@ -22,4 +22,4 @@ const ViewerRoutes = () => {
   );
 };
 
-export default ViewerRoutes;
+export default GerenteRoutes;

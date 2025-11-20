@@ -6,8 +6,9 @@ import Categorías from "../containers/Categorías/Categorías";
 import Subcategorías from "../containers/Subcategorías/Subcategorías";
 import Segmentos from "../containers/Segmentos/Segmentos";
 import Modelos from "../containers/Modelos/Modelos";
-import TableFichasTecnicas from "../containers/TableFichasTecnicas/TableFichasTecnicas";
 import FichasTecnicas from "../containers/FichasTecnicas/FichasTecnicas";
+import FichasTecnicasCompletadas from "../containers/FichasTecnicasCompletadas/FichasTecnicasCompletadas";
+import FichasTecnicasDesarrollo from "../containers/FichasTecnicasDesarrollo/FichasTecnicasDesarrollo";
 
 const AdminRoutes = () => {
   return (
@@ -17,12 +18,17 @@ const AdminRoutes = () => {
       <Route exact path="/Subcategorías" component={Subcategorías} />
       <Route exact path="/Segmentos" component={Segmentos} />
       <Route exact path="/Modelos" component={Modelos} />
-      <Route exact path="/Fichas-tecnicas" component={FichasTecnicas} />
       <Route
         exact
-        path="/Tabla-fichas-tecnicas"
-        component={TableFichasTecnicas}
+        path="/fichas-tecnicas-desarrollo"
+        component={FichasTecnicasDesarrollo}
       />
+      <Route
+        exact
+        path="/fichas-tecnicas-completadas"
+        component={FichasTecnicasCompletadas}
+      />
+      <Route exact path="/Fichas-tecnicas" component={FichasTecnicas} />
 
       <Route exact path="/no-resultados" component={NoResultados} />
       <Route component={NoResultados} />

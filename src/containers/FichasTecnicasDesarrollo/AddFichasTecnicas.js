@@ -10,10 +10,9 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Grid, MenuItem, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import ModelosContext from "../../context/Modelos/ModelosContext";
-import FichasTecnicasContext from "../../context/FichasTecnicas/FichasTecnicasContext";
 import { motion } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
+import FichasTecnicasDesarrolloContext from "../../context/FichasTecnicasDesarrollo/FichasTecnicasDesarrolloContext";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -54,8 +53,9 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function AddFichasTecnicas({ modal, handleClose, modelos }) {
-  const { AddFichasTecnicas } = useContext(FichasTecnicasContext);
+  const { AddFichasTecnicasDesarrolo } = useContext(FichasTecnicasDesarrolloContext);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedIMG, setSelectedIMG] = useState(null);
 
   const {
     register,
@@ -70,15 +70,23 @@ export default function AddFichasTecnicas({ modal, handleClose, modelos }) {
       return;
     }
 
+    if (!selectedIMG) {
+      alert("Debes seleccionar una imagen");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("model_id", data.model_id);
+    formData.append("status", data.status);
     formData.append("version", data.version || "");
     formData.append("file", selectedFile);
+    formData.append("image", selectedIMG);
 
-    AddFichasTecnicas(formData); 
+    AddFichasTecnicasDesarrolo(formData);
     handleClose();
     reset();
     setSelectedFile(null);
+    setSelectedIMG(null);
   };
 
   return (
@@ -123,7 +131,6 @@ export default function AddFichasTecnicas({ modal, handleClose, modelos }) {
                 ))}
               </TextField>
             </Grid>
-
             <Grid size={12}>
               <TextField
                 fullWidth
@@ -139,7 +146,24 @@ export default function AddFichasTecnicas({ modal, handleClose, modelos }) {
                 helperText={errors.version?.message}
               />
             </Grid>
-
+            <Grid size={12}>
+              <TextField
+                select
+                fullWidth
+                label="Estatus de la ficha técnica"
+                defaultValue=""
+                {...register("status", {
+                  required: "Selecciona un estatus",
+                })}
+                error={!!errors.status}
+                helperText={errors.status?.message}
+              >
+                <MenuItem value="">
+                  <em>-- Selecciona --</em>
+                </MenuItem>
+                <MenuItem value="1">En Desarrollo</MenuItem>
+              </TextField>
+            </Grid>
             <Grid size={12}>
               <Typography variant="subtitle2" sx={{ mb: 1 }}>
                 Archivo PDF
@@ -163,6 +187,29 @@ export default function AddFichasTecnicas({ modal, handleClose, modelos }) {
                 >
                   Archivo seleccionado: {selectedFile.name}
                 </Typography>
+              )}
+            </Grid>
+            <Grid size={12}>
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                Selecciona una imagen
+              </Typography>
+              <input
+                type="file"
+                accept="image/jpeg, image/png, image/jpg, image/gif"
+                onChange={(e) => setSelectedIMG(e.target.files[0])}
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "8px",
+                  borderRadius: "6px",
+                  width: "100%",
+                }}
+              />
+              {selectedIMG && (
+                <img
+                  src={URL.createObjectURL(selectedIMG)}
+                  alt="Preview"
+                  style={{ marginTop: 10, width: "100%", borderRadius: 8 }}
+                />
               )}
             </Grid>
           </Grid>

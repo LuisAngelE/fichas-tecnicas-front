@@ -6,7 +6,8 @@ import LayersIcon from "@mui/icons-material/Layers";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import DescriptionIcon from "@mui/icons-material/Description";
-import TableChartIcon from "@mui/icons-material/TableChart";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import { motion } from "framer-motion";
 import AuthContext from "../../context/Auth/AuthContext";
 import { useContext, useEffect, useState } from "react";
@@ -15,44 +16,52 @@ const cardsData = [
   {
     title: "Categorías",
     subtitle: "Gestiona y organiza las categorías principales del sistema.",
-    icon: <CategoryIcon sx={{ fontSize: 48, color: "#4A6FA5" }} />,
+    icon: <CategoryIcon sx={{ fontSize: 48, color: "#1A73E8" }} />,
     link: "/Categorías",
-    bgColor: "#E9F1FF",
+    bgColor: "#D0E3FF",
   },
   {
     title: "Subcategorías",
     subtitle: "Administra subniveles para un control más detallado.",
-    icon: <LayersIcon sx={{ fontSize: 48, color: "#4A6FA5" }} />,
+    icon: <LayersIcon sx={{ fontSize: 48, color: "#E67E22" }} />,
     link: "/Subcategorías",
-    bgColor: "#FFF4E2",
+    bgColor: "#FFE1C4",
   },
   {
     title: "Segmentos",
     subtitle: "Clasifica los segmentos para una mejor organización.",
-    icon: <ViewModuleIcon sx={{ fontSize: 48, color: "#4A6FA5" }} />,
+    icon: <ViewModuleIcon sx={{ fontSize: 48, color: "#27AE60" }} />,
     link: "/Segmentos",
-    bgColor: "#EAF8EF",
+    bgColor: "#D4F4DF",
   },
   {
     title: "Modelos",
     subtitle: "Registra y administra los modelos disponibles.",
-    icon: <DirectionsCarIcon sx={{ fontSize: 48, color: "#4A6FA5" }} />,
+    icon: <DirectionsCarIcon sx={{ fontSize: 48, color: "#C0392B" }} />,
     link: "/Modelos",
-    bgColor: "#FFE9F0",
+    bgColor: "#FFD6DB",
   },
   {
-    title: "Tabla de Fichas Técnicas",
-    subtitle: "Crea nuevas fichas técnicas y adjunta documentos PDF.  ",
-    icon: <TableChartIcon sx={{ fontSize: 48, color: "#4A6FA5" }} />,
-    link: "/Tabla-fichas-tecnicas",
-    bgColor: "#F3E9FF",
+    title: "Fichas Técnicas en Desarrollo",
+    subtitle: "Revisa las fichas técnicas que están actualmente en desarrollo.",
+    icon: <PendingActionsIcon sx={{ fontSize: 48, color: "#8E44AD" }} />,
+    link: "/fichas-tecnicas-desarrollo",
+    bgColor: "#E7D3F8",
+  },
+  {
+    title: "Fichas Técnicas Completadas",
+    subtitle:
+      "Consulta las fichas técnicas finalizadas y descarga sus archivos PDF.",
+    icon: <AssignmentTurnedInIcon sx={{ fontSize: 48, color: "#16A085" }} />,
+    link: "/fichas-tecnicas-completadas",
+    bgColor: "#CFF7F0",
   },
   {
     title: "Fichas Técnicas",
     subtitle: "Consulta, filtra y administra todas las fichas técnicas.",
-    icon: <DescriptionIcon sx={{ fontSize: 48, color: "#4A6FA5" }} />,
+    icon: <DescriptionIcon sx={{ fontSize: 48, color: "#34495E" }} />,
     link: "/Fichas-tecnicas",
-    bgColor: "#E3F5FF",
+    bgColor: "#DCE8F1",
   },
 ];
 

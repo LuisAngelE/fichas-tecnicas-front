@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
-import FichasTecnicasContext from "./FichasTecnicasContext";
-import FichasTecnicasReducer from "./FichasTecnicasReducer";
+import FichasTecnicasDesarrolloContext from "./FichasTecnicasDesarrolloContext";
+import FichasTecnicasDesarrolloReducer from "./FichasTecnicasDesarrolloReducer";
 import MethodGet, {
   MethodPost,
   MethodPut,
@@ -8,21 +8,24 @@ import MethodGet, {
 } from "../../config/service";
 import Swal from "sweetalert2";
 import {
-  GET_ALL_FICHAS_TECNICAS,
-  ADD_FICHAS_TECNICAS,
-  UPDATE_FICHAS_TECNICAS,
-  DELETE_FICHAS_TECNICAS,
+  GET_ALL_FICHAS_TECNICAS_DESARROLLO,
+  ADD_FICHAS_TECNICAS_DESARROLLO,
+  UPDATE_FICHAS_TECNICAS_DESARROLLO,
+  DELETE_FICHAS_TECNICAS_DESARROLLO,
 } from "../../types";
 
-const FichasTecnicasState = ({ children }) => {
+const FichasTecnicasDesarrolloState = ({ children }) => {
   const initialState = {
-    fichastecnicas: [],
-    fichastecnica: null,
+    fichastecnicasdesarrollos: [],
+    fichastecnicasdesarrollo: null,
     ErrorsApi: [],
     success: false,
   };
 
-  const [state, dispatch] = useReducer(FichasTecnicasReducer, initialState);
+  const [state, dispatch] = useReducer(
+    FichasTecnicasDesarrolloReducer,
+    initialState
+  );
 
   const handleError = (error) => {
     const data = error.response?.data;
@@ -49,7 +52,7 @@ const FichasTecnicasState = ({ children }) => {
     }
   };
 
-  const GetFichasTecnicasFinalizadas = async (
+  const GetFichasTecnicasDesarrollo = async (
     search = "",
     model_id = "",
     segment_id = "",
@@ -57,7 +60,7 @@ const FichasTecnicasState = ({ children }) => {
     category_id = ""
   ) => {
     try {
-      let url = "/technical-sheets/completed";
+      let url = "/technical-sheets/development";
 
       const params = new URLSearchParams();
 
@@ -71,27 +74,30 @@ const FichasTecnicasState = ({ children }) => {
       if (queryString) url += `?${queryString}`;
 
       const res = await MethodGet(url);
-      dispatch({ type: GET_ALL_FICHAS_TECNICAS, payload: res.data.data });
+      dispatch({
+        type: GET_ALL_FICHAS_TECNICAS_DESARROLLO,
+        payload: res.data.data,
+      });
     } catch (error) {
       handleError(error);
     }
   };
 
-  const AddFichasTecnicas = (data) => {
+  const AddFichasTecnicasDesarrolo = (data) => {
     MethodPost("/technical-sheets", data)
       .then((res) => {
-        dispatch({ type: ADD_FICHAS_TECNICAS, payload: res.data });
+        dispatch({ type: ADD_FICHAS_TECNICAS_DESARROLLO, payload: res.data });
         Swal.fire({
           title: "Éxito",
           text: "Ficha técnica agregado con éxito",
           icon: "success",
         });
-        GetFichasTecnicasFinalizadas();
+        GetFichasTecnicasDesarrollo();
       })
       .catch(handleError);
   };
 
-  const UpdateFichasTecnicas = (data) => {
+  const UpdateFichasTecnicasDesarrollo = (data) => {
     const id = data.get ? data.get("id") : data.id;
 
     const request =
@@ -101,18 +107,21 @@ const FichasTecnicasState = ({ children }) => {
 
     request
       .then((res) => {
-        dispatch({ type: UPDATE_FICHAS_TECNICAS, payload: res.data });
+        dispatch({
+          type: UPDATE_FICHAS_TECNICAS_DESARROLLO,
+          payload: res.data,
+        });
         Swal.fire({
           title: "Éxito",
           text: "Ficha técnica actualizada con éxito",
           icon: "success",
         });
-        GetFichasTecnicasFinalizadas();
+        GetFichasTecnicasDesarrollo();
       })
       .catch(handleError);
   };
 
-  const DeleteFichasTecnicas = (id) => {
+  const DeleteFichasTecnicasDesarrollo = (id) => {
     Swal.fire({
       title: "¿Estás seguro?",
       text: "La ficha técnica seleccionada será eliminada",
@@ -126,13 +135,13 @@ const FichasTecnicasState = ({ children }) => {
       if (result.isConfirmed) {
         MethodDelete(`/technical-sheets/${id}`)
           .then((res) => {
-            dispatch({ type: DELETE_FICHAS_TECNICAS, payload: id });
+            dispatch({ type: DELETE_FICHAS_TECNICAS_DESARROLLO, payload: id });
             Swal.fire({
               title: "Eliminado",
               text: res.data.mensaje,
               icon: "success",
             });
-            GetFichasTecnicasFinalizadas();
+            GetFichasTecnicasDesarrollo();
           })
           .catch(handleError);
       }
@@ -140,21 +149,21 @@ const FichasTecnicasState = ({ children }) => {
   };
 
   return (
-    <FichasTecnicasContext.Provider
+    <FichasTecnicasDesarrolloContext.Provider
       value={{
-        fichastecnicas: state.fichastecnicas,
-        fichastecnica: state.fichastecnica,
+        fichastecnicasdesarrollos: state.fichastecnicasdesarrollos,
+        fichastecnicasdesarrollo: state.fichastecnicasdesarrollo,
         ErrorsApi: state.ErrorsApi,
         success: state.success,
-        GetFichasTecnicasFinalizadas,
-        AddFichasTecnicas,
-        UpdateFichasTecnicas,
-        DeleteFichasTecnicas,
+        GetFichasTecnicasDesarrollo,
+        AddFichasTecnicasDesarrolo,
+        UpdateFichasTecnicasDesarrollo,
+        DeleteFichasTecnicasDesarrollo,
       }}
     >
       {children}
-    </FichasTecnicasContext.Provider>
+    </FichasTecnicasDesarrolloContext.Provider>
   );
 };
 
-export default FichasTecnicasState;
+export default FichasTecnicasDesarrolloState;

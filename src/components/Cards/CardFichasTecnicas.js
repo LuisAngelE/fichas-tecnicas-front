@@ -32,6 +32,8 @@ const cardVariants = {
 };
 
 const CardFichasTecnicas = ({ fichastecnicas = [] }) => {
+  const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
+
   const handleOpenPDF = (ficha) => {
     const baseUrl =
       process.env.REACT_APP_BACKEND_URL?.replace("/api", "") || "";
@@ -75,7 +77,7 @@ const CardFichasTecnicas = ({ fichastecnicas = [] }) => {
                   whileTap={{ scale: 0.98 }}
                   sx={{
                     width: 280,
-                    height: 260,
+                    height: 380,
                     borderRadius: 4,
                     overflow: "hidden",
                     position: "relative",
@@ -153,8 +155,6 @@ const CardFichasTecnicas = ({ fichastecnicas = [] }) => {
                       </Typography>
                     </Typography>
 
-                    <Divider sx={{ my: 1.2 }} />
-
                     <Typography
                       variant="body2"
                       sx={{
@@ -167,6 +167,35 @@ const CardFichasTecnicas = ({ fichastecnicas = [] }) => {
                     >
                       📄 {ficha.file_name}
                     </Typography>
+
+                    <Divider sx={{ my: 1.2 }} />
+                    
+                    <Box
+                      sx={{
+                        width: "100%",
+                        height: 120,
+                        borderRadius: 2,
+                        overflow: "hidden",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "#f3f3f3",
+                        mb: 1.5,
+                      }}
+                    >
+                      <img
+                        src={
+                          ficha?.image?.url ??
+                          `${baseUrl}/storage/fichas/imagenes/default.webp`
+                        }
+                        alt="imagen ficha"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Box>
                   </CardContent>
 
                   <CardActions

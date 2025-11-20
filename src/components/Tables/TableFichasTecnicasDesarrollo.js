@@ -11,8 +11,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import EditFichasTecnicas from "../../containers/FichasTecnicasCompletadas/EditFichasTecnicas";
-import FichasTecnicasContext from "../../context/FichasTecnicas/FichasTecnicasContext";
+import EditFichasTecnicas from "../../containers/FichasTecnicasDesarrollo/EditFichasTecnicas";
+import FichasTecnicasDesarrolloContext from "../../context/FichasTecnicasDesarrollo/FichasTecnicasDesarrolloContext";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -62,9 +62,13 @@ const TableContainerResponsive = styled(TableContainer)(({ theme }) => ({
   },
 }));
 
-export default function TableCategorias({ fichastecnicas }) {
+export default function TableFichasTecnicasDesarrollo({
+  fichastecnicasdesarrollos,
+}) {
   const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
-  const { DeleteFichasTecnicas } = useContext(FichasTecnicasContext);
+  const { DeleteFichasTecnicasDesarrollo } = useContext(
+    FichasTecnicasDesarrolloContext
+  );
   const [modalUpdate, OpenModalUpdate] = useState(false);
   const [id_service, saveIdService] = useState(null);
   const user_type = localStorage.getItem("user_type");
@@ -102,10 +106,11 @@ export default function TableCategorias({ fichastecnicas }) {
 
           <TableBody>
             <AnimatePresence>
-              {fichastecnicas && fichastecnicas.length > 0 ? (
-                fichastecnicas.map((fichastecnica) => (
+              {fichastecnicasdesarrollos &&
+              fichastecnicasdesarrollos.length > 0 ? (
+                fichastecnicasdesarrollos.map((fichastecnicasdesarrollo) => (
                   <StyledTableRow
-                    key={fichastecnica.id}
+                    key={fichastecnicasdesarrollo.id}
                     component={motion.tr}
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -114,13 +119,13 @@ export default function TableCategorias({ fichastecnicas }) {
                     whileHover={{ scale: 1.02, backgroundColor: "#E3ECFF" }}
                   >
                     <StyledTableCell data-label="ID">
-                      {fichastecnica.id}
+                      {fichastecnicasdesarrollo.id}
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Imagen">
                       <img
                         src={
-                          fichastecnica?.image?.url ??
+                          fichastecnicasdesarrollo?.image?.url ??
                           `${baseUrl}/storage/fichas/imagenes/default.webp`
                         }
                         alt="imagen ficha"
@@ -130,17 +135,17 @@ export default function TableCategorias({ fichastecnicas }) {
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Nombre del archivo">
-                      {fichastecnica.file_name}
+                      {fichastecnicasdesarrollo.file_name}
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Versión">
-                      {fichastecnica.version}
+                      {fichastecnicasdesarrollo.version}
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Ver PDF">
                       <Tooltip title="Ver ficha técnica" placement="top">
                         <a
-                          href={`${baseUrl}/storage/${fichastecnica.file_path}`}
+                          href={`${baseUrl}/storage/${fichastecnicasdesarrollo.file_path}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{
@@ -155,42 +160,43 @@ export default function TableCategorias({ fichastecnicas }) {
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Creador">
-                      {fichastecnica.user
-                        ? `${fichastecnica.user.first_name ?? ""} ${
-                            fichastecnica.user.middle_name ?? ""
-                          } ${fichastecnica.user.last_name ?? ""} ${
-                            fichastecnica.user.second_last_name ?? ""
+                      {fichastecnicasdesarrollo.user
+                        ? `${fichastecnicasdesarrollo.user.first_name ?? ""} ${
+                            fichastecnicasdesarrollo.user.middle_name ?? ""
+                          } ${fichastecnicasdesarrollo.user.last_name ?? ""} ${
+                            fichastecnicasdesarrollo.user.second_last_name ?? ""
                           }`.trim()
                         : "Sin creador"}
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Modelo">
-                      {fichastecnica.model?.name || "Sin modelo"}
+                      {fichastecnicasdesarrollo.model?.name || "Sin modelo"}
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Segmento">
-                      {fichastecnica.model?.segment?.name || "Sin segmento"}
+                      {fichastecnicasdesarrollo.model?.segment?.name ||
+                        "Sin segmento"}
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Subcategoría">
-                      {fichastecnica.model?.segment?.subcategory?.name ||
-                        "Sin subcategoría"}
+                      {fichastecnicasdesarrollo.model?.segment?.subcategory
+                        ?.name || "Sin subcategoría"}
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Categoría">
-                      {fichastecnica.model?.segment?.subcategory?.category
-                        ?.name || "Sin categoría"}
+                      {fichastecnicasdesarrollo.model?.segment?.subcategory
+                        ?.category?.name || "Sin categoría"}
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Fecha de creación">
-                      {new Date(fichastecnica.created_at)
+                      {new Date(fichastecnicasdesarrollo.created_at)
                         .toISOString()
                         .slice(0, 19)
                         .replace("T", " ")}
                     </StyledTableCell>
 
                     <StyledTableCell data-label="Fecha de actualización">
-                      {new Date(fichastecnica.updated_at)
+                      {new Date(fichastecnicasdesarrollo.updated_at)
                         .toISOString()
                         .slice(0, 19)
                         .replace("T", " ")}
@@ -201,7 +207,9 @@ export default function TableCategorias({ fichastecnicas }) {
                         <Tooltip title="Editar ficha técnica" placement="top">
                           <IconButton
                             size="small"
-                            onClick={() => handleClickOpen(fichastecnica.id)}
+                            onClick={() =>
+                              handleClickOpen(fichastecnicasdesarrollo.id)
+                            }
                           >
                             <EditIcon
                               sx={{
@@ -217,7 +225,9 @@ export default function TableCategorias({ fichastecnicas }) {
                           <IconButton
                             size="small"
                             onClick={() =>
-                              DeleteFichasTecnicas(fichastecnica.id)
+                              DeleteFichasTecnicasDesarrollo(
+                                fichastecnicasdesarrollo.id
+                              )
                             }
                           >
                             <DeleteIcon

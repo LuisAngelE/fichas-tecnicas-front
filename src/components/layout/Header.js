@@ -22,12 +22,13 @@ import { Link } from "react-router-dom";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import Logo from "../layout/img/LDR-blanco-Logo.png";
 import CategoryIcon from "@mui/icons-material/Category";
-import TableRowsIcon from "@mui/icons-material/TableRows";
 import DescriptionIcon from "@mui/icons-material/Description";
 import LayersIcon from "@mui/icons-material/Layers";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import AuthContext from "../../context/Auth/AuthContext";
 import { useContext } from "react";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 
 export default function Header({ children }) {
   const { usuario, cerrarSesion } = useContext(AuthContext);
@@ -53,9 +54,14 @@ export default function Header({ children }) {
     { name: "Segmentos", value: "/Segmentos", icon: <ViewModuleIcon /> },
     { name: "Modelos", value: "/Modelos", icon: <DirectionsCarIcon /> },
     {
-      name: "Tabla de fichas",
-      value: "/Tabla-fichas-tecnicas",
-      icon: <TableRowsIcon />,
+      name: "Fichas técnicas en desarrollo",
+      value: "/fichas-tecnicas-desarrollo",
+      icon: <PendingActionsIcon />,
+    },
+    {
+      name: "Fichas técnicas completadas",
+      value: "/fichas-tecnicas-completadas",
+      icon: <AssignmentTurnedInIcon />,
     },
     {
       name: "Fichas técnicas",
@@ -67,9 +73,9 @@ export default function Header({ children }) {
   const Viewer = [
     { name: "Inicio", value: "/Inicio", icon: <HomeIcon /> },
     {
-      name: "Tabla de fichas",
-      value: "/Tabla-fichas-tecnicas",
-      icon: <TableRowsIcon />,
+      name: "Fichas técnicas completadas",
+      value: "/fichas-tecnicas-completadas",
+      icon: <AssignmentTurnedInIcon />,
     },
     {
       name: "Fichas técnicas",
@@ -78,7 +84,49 @@ export default function Header({ children }) {
     },
   ];
 
-  const menuItems = user_type === "1" ? Admin : user_type === "2" ? Viewer : [];
+  const Director = [
+    { name: "Inicio", value: "/Inicio", icon: <HomeIcon /> },
+    {
+      name: "Fichas técnicas en desarrolo",
+      value: "/fichas-tecnicas-desarrollo",
+      icon: <PendingActionsIcon />,
+    },
+    {
+      name: "Fichas técnicas completadas",
+      value: "/fichas-tecnicas-completadas",
+      icon: <AssignmentTurnedInIcon />,
+    },
+    {
+      name: "Fichas técnicas",
+      value: "/Fichas-tecnicas",
+      icon: <DescriptionIcon />,
+    },
+  ];
+
+  const Gerente = [
+    { name: "Inicio", value: "/Inicio", icon: <HomeIcon /> },
+    {
+      name: "Fichas técnicas completadas",
+      value: "/fichas-tecnicas-completadas",
+      icon: <AssignmentTurnedInIcon />,
+    },
+    {
+      name: "Fichas técnicas",
+      value: "/Fichas-tecnicas",
+      icon: <DescriptionIcon />,
+    },
+  ];
+
+  const menuItems =
+    user_type === "1"
+      ? Admin
+      : user_type === "2"
+      ? Viewer
+      : user_type === "3"
+      ? Director
+      : user_type === "4"
+      ? Gerente
+      : [];
 
   const inicial = usuario?.first_name
     ? usuario.first_name.charAt(0).toUpperCase()

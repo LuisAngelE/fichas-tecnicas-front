@@ -4,11 +4,17 @@ import Inicio from "../containers/Inicio/Inicio";
 import NoResultados from "../components/layout/NoResultados";
 import FichasTecnicas from "../containers/FichasTecnicas/FichasTecnicas";
 import FichasTecnicasCompletadas from "../containers/FichasTecnicasCompletadas/FichasTecnicasCompletadas";
+import FichasTecnicasDesarrollo from "../containers/FichasTecnicasDesarrollo/FichasTecnicasDesarrollo";
 
-const ViewerRoutes = () => {
+const DirectorRoutes = () => {
   return (
     <Switch>
       <Route exact path="/Inicio" component={Inicio} />
+      <Route
+        exact
+        path="/fichas-tecnicas-desarrollo"
+        component={FichasTecnicasDesarrollo}
+      />
       <Route
         exact
         path="/fichas-tecnicas-completadas"
@@ -22,4 +28,4 @@ const ViewerRoutes = () => {
   );
 };
 
-export default ViewerRoutes;
+export default DirectorRoutes;
