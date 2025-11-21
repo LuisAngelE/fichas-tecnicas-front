@@ -19,6 +19,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import Logo from "../layout/img/LDR-blanco-Logo.png";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -155,10 +156,11 @@ export default function Header({ children }) {
           }}
         >
           <Avatar
+            src={`https://ldrhsys.ldrhumanresources.com/Cliente/img/avatars/${usuario.url}.png`}
             sx={{
-              bgcolor: "#546B85",
               width: 56,
               height: 56,
+              bgcolor: "#546B85",
             }}
           >
             {inicial}
@@ -187,16 +189,31 @@ export default function Header({ children }) {
       </Box>
       <Box>
         <Divider />
+
         <ListItem disablePadding>
-          <ListItemButton component={Link} to="/">
+          <ListItemButton
+            onClick={() => {
+              window.location.href =
+                "https://ldrhsys.ldrhumanresources.com/Cliente/interfaces/Inicio.php?resultado=ingreso";
+            }}
+          >
+            <ListItemIcon>
+              <KeyboardReturnIcon />
+            </ListItemIcon>
+            <ListItemText primary="Regresar" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              cerrarSesion();
+            }}
+          >
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText
-              primary="Cerrar sesión"
-              sx={{ color: "#000000ff" }}
-              onClick={() => cerrarSesion()}
-            />
+            <ListItemText primary="Cerrar sesión" sx={{ color: "#000000ff" }} />
           </ListItemButton>
         </ListItem>
       </Box>

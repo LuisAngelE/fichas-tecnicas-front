@@ -66,6 +66,7 @@ const cardsData = [
 ];
 
 const Inicio = () => {
+  const user_type = localStorage.getItem("user_type");
   const { usuario } = useContext(AuthContext);
   const [saludo, setSaludo] = useState("");
 
@@ -75,6 +76,33 @@ const Inicio = () => {
     else if (hora >= 12 && hora < 18) setSaludo("Buenas tardes");
     else setSaludo("Buenas noches");
   }, []);
+
+  const CardsAdmin = [
+    cardsData[0],
+    cardsData[1],
+    cardsData[2],
+    cardsData[3],
+    cardsData[4],
+    cardsData[5],
+    cardsData[6],
+  ];
+
+  const CardsViewer = [cardsData[5], cardsData[6]];
+
+  const CardsDirector = [cardsData[4], cardsData[5], cardsData[6]];
+
+  const CardsGerente = [cardsData[5], cardsData[6]];
+
+  const filteredCards =
+    user_type === "1"
+      ? CardsAdmin
+      : user_type === "2"
+      ? CardsViewer
+      : user_type === "3"
+      ? CardsDirector
+      : user_type === "4"
+      ? CardsGerente
+      : [];
 
   const nombreCompleto = [
     usuario?.first_name,
@@ -103,7 +131,7 @@ const Inicio = () => {
           </Typography>
         </Grid>
         <Grid size={12}>
-          {cardsData.map((card, index) => (
+          {filteredCards.map((card, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Link to={card.link} style={{ textDecoration: "none" }}>
                 <Card

@@ -11,6 +11,8 @@ import { Grid } from "@mui/material";
 import LoadingComponent from "../components/loading/LoadingComponent";
 import AdminRoutes from "./AdminRoutes";
 import ViewerRoutes from "./ViewerRoutes";
+import DirectorRoutes from "./DirectorRoutes";
+import GerenteRoutes from "./GerenteRoutes";
 
 const AppRouter = () => {
   const { autenticado, usuarioAutenticado, cargando, loginExterno, errorAuth } =
@@ -46,6 +48,8 @@ const AppRouter = () => {
 
   if (user_type === "1") PrivateComponent = AdminRoutes;
   if (user_type === "2") PrivateComponent = ViewerRoutes;
+  if (user_type === "3") PrivateComponent = DirectorRoutes;
+  if (user_type === "4") PrivateComponent = GerenteRoutes;
 
   return (
     <Router>
