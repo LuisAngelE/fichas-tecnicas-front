@@ -1,6 +1,10 @@
-import { Grid, Box, Card, CardContent, Typography } from "@mui/material";
+import { Grid, Card, CardContent, Typography, Box } from "@mui/material";
 import Layout from "../../components/layout/Layout";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import AuthContext from "../../context/Auth/AuthContext";
+import { useContext, useEffect, useState } from "react";
+
 import CategoryIcon from "@mui/icons-material/Category";
 import LayersIcon from "@mui/icons-material/Layers";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
@@ -8,62 +12,6 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import DescriptionIcon from "@mui/icons-material/Description";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import { motion } from "framer-motion";
-import AuthContext from "../../context/Auth/AuthContext";
-import { useContext, useEffect, useState } from "react";
-
-const cardsData = [
-  {
-    title: "Categorías",
-    subtitle: "Gestiona y organiza las categorías principales del sistema.",
-    icon: <CategoryIcon sx={{ fontSize: 48, color: "#1A73E8" }} />,
-    link: "/Categorías",
-    bgColor: "#D0E3FF",
-  },
-  {
-    title: "Subcategorías",
-    subtitle: "Administra subniveles para un control más detallado.",
-    icon: <LayersIcon sx={{ fontSize: 48, color: "#E67E22" }} />,
-    link: "/Subcategorías",
-    bgColor: "#FFE1C4",
-  },
-  {
-    title: "Segmentos",
-    subtitle: "Clasifica los segmentos para una mejor organización.",
-    icon: <ViewModuleIcon sx={{ fontSize: 48, color: "#27AE60" }} />,
-    link: "/Segmentos",
-    bgColor: "#D4F4DF",
-  },
-  {
-    title: "Modelos",
-    subtitle: "Registra y administra los modelos disponibles.",
-    icon: <DirectionsCarIcon sx={{ fontSize: 48, color: "#C0392B" }} />,
-    link: "/Modelos",
-    bgColor: "#FFD6DB",
-  },
-  {
-    title: "Fichas Técnicas en Desarrollo",
-    subtitle: "Revisa las fichas técnicas que están actualmente en desarrollo.",
-    icon: <PendingActionsIcon sx={{ fontSize: 48, color: "#8E44AD" }} />,
-    link: "/fichas-tecnicas-desarrollo",
-    bgColor: "#E7D3F8",
-  },
-  {
-    title: "Fichas Técnicas Completadas",
-    subtitle:
-      "Consulta las fichas técnicas finalizadas y descarga sus archivos PDF.",
-    icon: <AssignmentTurnedInIcon sx={{ fontSize: 48, color: "#16A085" }} />,
-    link: "/fichas-tecnicas-completadas",
-    bgColor: "#CFF7F0",
-  },
-  {
-    title: "Fichas Técnicas",
-    subtitle: "Consulta, filtra y administra todas las fichas técnicas.",
-    icon: <DescriptionIcon sx={{ fontSize: 48, color: "#34495E" }} />,
-    link: "/Fichas-tecnicas",
-    bgColor: "#DCE8F1",
-  },
-];
 
 const Inicio = () => {
   const user_type = localStorage.getItem("user_type");
@@ -71,88 +19,164 @@ const Inicio = () => {
   const [saludo, setSaludo] = useState("");
 
   useEffect(() => {
-    const hora = new Date().getHours();
-    if (hora >= 6 && hora < 12) setSaludo("Buenos días");
-    else if (hora >= 12 && hora < 18) setSaludo("Buenas tardes");
-    else setSaludo("Buenas noches");
+    const hour = new Date().getHours();
+    setSaludo(
+      hour < 12 ? "Buenos días" : hour < 18 ? "Buenas tardes" : "Buenas noches"
+    );
   }, []);
 
-  const CardsAdmin = [
-    cardsData[0],
-    cardsData[1],
-    cardsData[2],
-    cardsData[3],
-    cardsData[4],
-    cardsData[5],
-    cardsData[6],
+  const cardsData = [
+    {
+      title: "Categorías",
+      subtitle: "Gestiona y organiza las categorías principales del sistema.",
+      icon: <CategoryIcon />,
+      color: "#1A73E8",
+      gradient: "linear-gradient(135deg, #1A73E8, #4285F4)",
+      link: "/Categorías",
+    },
+    {
+      title: "Subcategorías",
+      subtitle: "Administra subniveles para un control más detallado.",
+      icon: <LayersIcon />,
+      color: "#E67E22",
+      gradient: "linear-gradient(135deg, #E67E22, #F39C12)",
+      link: "/Subcategorías",
+    },
+    {
+      title: "Segmentos",
+      subtitle: "Clasifica los segmentos para una mejor organización.",
+      icon: <ViewModuleIcon />,
+      color: "#27AE60",
+      gradient: "linear-gradient(135deg, #27AE60, #2ECC71)",
+      link: "/Segmentos",
+    },
+    {
+      title: "Modelos",
+      subtitle: "Registra y administra los modelos disponibles.",
+      icon: <DirectionsCarIcon />,
+      color: "#C0392B",
+      gradient: "linear-gradient(135deg, #C0392B, #E74C3C)",
+      link: "/Modelos",
+    },
+    {
+      title: "Fichas Técnicas en Desarrollo",
+      subtitle: "Revisa las fichas técnicas en desarrollo.",
+      icon: <PendingActionsIcon />,
+      color: "#8E44AD",
+      gradient: "linear-gradient(135deg, #8E44AD, #9B59B6)",
+      link: "/fichas-tecnicas-desarrollo",
+    },
+    {
+      title: "Fichas Técnicas Completadas",
+      subtitle: "Consulta fichas finalizadas y descarga PDF.",
+      icon: <AssignmentTurnedInIcon />,
+      color: "#16A085",
+      gradient: "linear-gradient(135deg, #16A085, #1ABC9C)",
+      link: "/fichas-tecnicas-completadas",
+    },
+    {
+      title: "Fichas Técnicas",
+      subtitle: "Consulta y administra todas las fichas técnicas.",
+      icon: <DescriptionIcon />,
+      color: "#34495E",
+      gradient: "linear-gradient(135deg, #34495E, #2C3E50)",
+      link: "/Fichas-tecnicas",
+    },
   ];
 
-  const CardsViewer = [cardsData[5], cardsData[6]];
+  const CARDS_BY_ROLE = {
+    1: [0, 1, 2, 3, 4, 5, 6], // Admin
+    2: [5, 6], // Viewer
+    3: [4, 5, 6], // Director
+    4: [5, 6], // Gerente
+  };
 
-  const CardsDirector = [cardsData[4], cardsData[5], cardsData[6]];
+  const filteredCards = (CARDS_BY_ROLE[user_type] ?? []).map(
+    (i) => cardsData[i]
+  );
 
-  const CardsGerente = [cardsData[5], cardsData[6]];
+  const nombreCompleto = usuario
+    ? [
+        usuario.first_name,
+        usuario.middle_name,
+        usuario.last_name,
+        usuario.second_last_name,
+      ]
+        .filter(Boolean)
+        .join(" ")
+    : "";
 
-  const filteredCards =
-    user_type === "1"
-      ? CardsAdmin
-      : user_type === "2"
-      ? CardsViewer
-      : user_type === "3"
-      ? CardsDirector
-      : user_type === "4"
-      ? CardsGerente
-      : [];
+  const baseCardStyles = {
+    width: 330,
+    height: 260,
+    borderRadius: 4,
+    p: 1,
+    cursor: "pointer",
+    backdropFilter: "blur(12px) saturate(160%)",
+    background: "rgba(255,255,255,0.35)",
+    border: "1px solid rgba(255,255,255,0.3)",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    transition: "all 0.35s ease",
+  };
 
-  const nombreCompleto = [
-    usuario?.first_name,
-    usuario?.middle_name,
-    usuario?.last_name,
-    usuario?.second_last_name,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const motionVariant = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    hover: { scale: 1.06, y: -6 },
+  };
 
   return (
     <Layout>
-      <Grid container spacing={2} sx={{ px: 2 }}>
-        <Grid size={12}>
-          <Typography
-            align="center"
-            fontWeight="bold"
-            fontFamily="monospace"
-            variant="h5"
-            sx={{ color: "#2c3e50", mb: 4 }}
-          >
-            Hola, {saludo}, {nombreCompleto}.
-            <br />
-            <br />
-            Bienvenido(a) a la Plataforma de Fichas Técnicas.
-          </Typography>
-        </Grid>
-        <Grid size={12}>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          px: 2,
+          py: 4,
+          background: "linear-gradient(145deg, #eef2f3, #dfe9f3)",
+        }}
+      >
+        <Typography
+          align="center"
+          fontWeight="bold"
+          variant="h5"
+          sx={{
+            mb: 5,
+            color: "#2c3e50",
+            fontFamily: "monospace",
+          }}
+        >
+          Hola {saludo}, {nombreCompleto}. <br />
+          Bienvenido(a) a la Plataforma de Fichas Técnicas.
+        </Typography>
+
+        <Grid container spacing={3} justifyContent="center">
           {filteredCards.map((card, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={index}
+              display="flex"
+              justifyContent="center"
+            >
               <Link to={card.link} style={{ textDecoration: "none" }}>
                 <Card
                   component={motion.div}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  variants={motionVariant}
+                  initial="hidden"
+                  animate="visible"
+                  whileHover="hover"
+                  transition={{ duration: 0.25 }}
                   sx={{
-                    borderRadius: 4,
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                    backgroundColor: card.bgColor,
-                    minHeight: 210,
-                    p: 1,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: "pointer",
-                    transition: "transform 0.25s ease, box-shadow 0.25s ease",
+                    ...baseCardStyles,
                     "&:hover": {
-                      transform: "translateY(-6px)",
-                      boxShadow: "0 8px 18px rgba(0,0,0,0.15)",
+                      background: card.gradient,
+                      border: "1px solid rgba(255,255,255,0.6)",
+                      boxShadow: "0 12px 28px rgba(0,0,0,0.22)",
                     },
                   }}
                 >
@@ -162,20 +186,45 @@ const Inicio = () => {
                       flexDirection: "column",
                       alignItems: "center",
                       textAlign: "center",
-                      gap: 1.5,
+                      gap: 2,
+
+                      "& svg": {
+                        fontSize: 52,
+                        color: card.color,
+                        transition: "all 0.35s ease",
+                      },
+
+                      "&:hover svg": {
+                        color: "white",
+                        filter: "drop-shadow(0 0 6px rgba(255,255,255,0.9))",
+                      },
+
+                      ".title": {
+                        fontWeight: "bold",
+                        color: "#1f2937",
+                        transition: "all 0.35s ease",
+                      },
+                      ".subtitle": {
+                        color: "#4b5563",
+                        transition: "all 0.35s ease",
+                      },
+
+                      "&:hover .title, &:hover .subtitle": {
+                        color: "white",
+                        textShadow: "0 0 4px rgba(0,0,0,0.25)",
+                      },
                     }}
                   >
-                    {card.icon}
-                    <Typography
-                      variant="h6"
-                      fontWeight="bold"
-                      sx={{ color: "#2c3e50" }}
-                    >
+                    <Box>{card.icon}</Box>
+
+                    <Typography variant="h6" className="title">
                       {card.title}
                     </Typography>
+
                     <Typography
                       variant="body2"
-                      sx={{ color: "#4b4b4b", maxWidth: 220 }}
+                      className="subtitle"
+                      sx={{ maxWidth: 240 }}
                     >
                       {card.subtitle}
                     </Typography>
@@ -185,7 +234,7 @@ const Inicio = () => {
             </Grid>
           ))}
         </Grid>
-      </Grid>
+      </Box>
     </Layout>
   );
 };

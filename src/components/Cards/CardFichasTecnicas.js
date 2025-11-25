@@ -26,7 +26,7 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.4, ease: "easeOut" },
+    transition: { duration: 0.35, ease: "easeOut" },
   },
   exit: { opacity: 0, scale: 0.9, y: 20, transition: { duration: 0.25 } },
 };
@@ -35,9 +35,9 @@ const CardFichasTecnicas = ({ fichastecnicas = [] }) => {
   const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
 
   const handleOpenPDF = (ficha) => {
-    const baseUrl =
+    const cleanUrl =
       process.env.REACT_APP_BACKEND_URL?.replace("/api", "") || "";
-    window.open(`${baseUrl}/storage/${ficha.file_path}`, "_blank");
+    window.open(`${cleanUrl}/storage/${ficha.file_path}`, "_blank");
   };
 
   return (
@@ -47,7 +47,6 @@ const CardFichasTecnicas = ({ fichastecnicas = [] }) => {
           container
           spacing={3}
           justifyContent="center"
-          alignItems="stretch"
           component={motion.div}
           variants={containerVariants}
           initial="hidden"
@@ -70,58 +69,32 @@ const CardFichasTecnicas = ({ fichastecnicas = [] }) => {
                 <Card
                   component={motion.div}
                   whileHover={{
+                    y: -6,
                     scale: 1.03,
-                    boxShadow: "0px 10px 25px rgba(0,0,0,0.15)",
-                    transition: { type: "spring", stiffness: 300, damping: 15 },
+                    boxShadow: "0px 12px 28px rgba(0,0,0,0.18)",
+                    transition: { duration: 0.28 },
                   }}
-                  whileTap={{ scale: 0.98 }}
+                  whileTap={{ scale: 0.97 }}
                   sx={{
                     width: 280,
                     height: 380,
                     borderRadius: 4,
                     overflow: "hidden",
-                    position: "relative",
+                    background: "linear-gradient(180deg, #ffffff, #f3f4f7)",
+                    border: "1px solid #e5e7eb",
+                    transition: "0.25s ease",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
-                    background:
-                      "linear-gradient(180deg, #ffffff 0%, #f9f9f9 100%)",
-                    border: "1px solid #eee",
-                    "&::before": {
-                      content: '""',
-                      position: "absolute",
-                      inset: 0,
-                      borderRadius: 4,
-                      padding: "2px",
-                      background:
-                        "linear-gradient(45deg, #007bff, #00c6ff, #007bff)",
-                      WebkitMask:
-                        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                      WebkitMaskComposite: "xor",
-                      maskComposite: "exclude",
-                      animation: "gradientMove 4s linear infinite",
-                      zIndex: 0,
-                    },
-                    "@keyframes gradientMove": {
-                      "0%": { backgroundPosition: "0% 50%" },
-                      "100%": { backgroundPosition: "100% 50%" },
-                    },
                   }}
                 >
-                  <CardContent
-                    sx={{
-                      flexGrow: 1,
-                      p: 2.5,
-                      position: "relative",
-                      zIndex: 1,
-                    }}
-                  >
+                  <CardContent sx={{ p: 2.5 }}>
                     <Typography
                       variant="overline"
                       sx={{
                         color: "text.secondary",
-                        fontWeight: 600,
-                        letterSpacing: 0.5,
+                        fontWeight: 700,
+                        letterSpacing: 0.6,
                       }}
                     >
                       FICHA TÉCNICA
@@ -130,29 +103,24 @@ const CardFichasTecnicas = ({ fichastecnicas = [] }) => {
                     <Typography
                       variant="h6"
                       sx={{
-                        fontWeight: 700,
+                        fontWeight: 800,
                         color: "primary.main",
-                        mb: 0.8,
+                        mb: 0.6,
+                        lineHeight: 1.2,
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
                       }}
-                      title={ficha.model?.name || "Modelo desconocido"}
+                      title={ficha.model?.name}
                     >
                       {ficha.model?.name || "Modelo desconocido"}
                     </Typography>
 
                     <Typography
                       variant="body2"
-                      sx={{
-                        color: "text.secondary",
-                        mb: 1,
-                      }}
+                      sx={{ mb: 1.2, color: "text.secondary" }}
                     >
-                      Versión:{" "}
-                      <Typography component="span" sx={{ fontWeight: 500 }}>
-                        {ficha.version || "v1.0"}
-                      </Typography>
+                      Versión: <strong>{ficha.version || "v1.0"}</strong>
                     </Typography>
 
                     <Typography
@@ -168,19 +136,18 @@ const CardFichasTecnicas = ({ fichastecnicas = [] }) => {
                       📄 {ficha.file_name}
                     </Typography>
 
-                    <Divider sx={{ my: 1.2 }} />
-                    
+                    <Divider sx={{ my: 1.5 }} />
+
                     <Box
                       sx={{
                         width: "100%",
-                        height: 120,
+                        height: 130,
                         borderRadius: 2,
                         overflow: "hidden",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        backgroundColor: "#f3f3f3",
-                        mb: 1.5,
+                        backgroundColor: "#eceff1",
                       }}
                     >
                       <img
@@ -193,33 +160,25 @@ const CardFichasTecnicas = ({ fichastecnicas = [] }) => {
                           width: "100%",
                           height: "100%",
                           objectFit: "cover",
+                          transition: "0.3s",
                         }}
                       />
                     </Box>
                   </CardContent>
 
-                  <CardActions
-                    sx={{ p: 2, pt: 0, position: "relative", zIndex: 1 }}
-                  >
+                  <CardActions sx={{ p: 2, pt: 0 }}>
                     <Button
                       variant="contained"
-                      color="primary"
-                      size="small"
                       fullWidth
                       startIcon={<PictureAsPdfIcon />}
                       onClick={() => handleOpenPDF(ficha)}
                       component={motion.button}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 20,
-                      }}
                       sx={{
                         borderRadius: 2,
                         textTransform: "none",
-                        fontWeight: 600,
+                        fontWeight: 700,
                         py: 1,
                       }}
                     >
