@@ -131,6 +131,15 @@ export default function Header({ children }) {
       ? Gerente
       : [];
 
+  const manualUrl =
+    user_type === "1"
+      ? `${baseUrl}/storage/fichas/ManualesDeUsuario/FichasTécnicasManualdeUsuarioAdministrador.pdf`
+      : user_type === "3"
+      ? `${baseUrl}/storage/fichas/ManualesDeUsuario/FichasTécnicasManualdeUsuarioDirector.pdf`
+      : user_type === "4"
+      ? `${baseUrl}/storage/fichas/ManualesDeUsuario/FichasTécnicasManualdeUsuarioGerente.pdf`
+      : `${baseUrl}/storage/fichas/ManualesDeUsuario/FichasTécnicasManualdeUsuarioGerente.pdf`;
+
   const inicial = usuario?.first_name
     ? usuario.first_name.charAt(0).toUpperCase()
     : "U";
@@ -195,7 +204,7 @@ export default function Header({ children }) {
         <ListItem disablePadding>
           <ListItemButton
             component="a"
-            href={`${baseUrl}/storage/fichas/FichasTécnicasManualdeUsuario.pdf`}
+            href={manualUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
