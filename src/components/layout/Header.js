@@ -19,6 +19,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import Logo from "../layout/img/LDR-blanco-Logo.png";
@@ -32,6 +33,7 @@ import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 
 export default function Header({ children }) {
+  const baseUrl = process.env.REACT_APP_BACKEND_URL.replace(/\/api$/, "");
   const { usuario, cerrarSesion } = useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
 
@@ -189,6 +191,20 @@ export default function Header({ children }) {
       </Box>
       <Box>
         <Divider />
+
+        <ListItem disablePadding>
+          <ListItemButton
+            component="a"
+            href={`${baseUrl}/storage/fichas/FichasTécnicasManualdeUsuario.pdf`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <ListItemIcon>
+              <PictureAsPdfIcon />
+            </ListItemIcon>
+            <ListItemText primary="Manual de usuario" />
+          </ListItemButton>
+        </ListItem>
 
         <ListItem disablePadding>
           <ListItemButton
